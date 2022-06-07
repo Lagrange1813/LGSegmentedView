@@ -11,43 +11,59 @@ public class SegmentedView: UIView {
     let displayView = UIScrollView()
     let segmentedController = SegmentedController()
     
-    public override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
         
         backgroundColor = .white
         
-        addSubview(displayView)
-        addSubview(segmentedController)
-        
-        let segmentedControllerConstraints = [
-            segmentedController.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            segmentedController.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            segmentedController.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            segmentedController.heightAnchor.constraint(equalToConstant: 30)
-        ]
-        
-        NSLayoutConstraint.activate(segmentedControllerConstraints)
-        
-        let displayViewConstraints = [
-            displayView.topAnchor.constraint(equalTo: self.topAnchor),
-            displayView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            displayView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            displayView.bottomAnchor.constraint(equalTo: segmentedController.topAnchor)
-        ]
-        
-        NSLayoutConstraint.activate(displayViewConstraints)
-        
+        configureLayout()
+        configureComponents()
     }
     
     convenience init() {
         self.init(frame: .zero)
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure() {
+    func configureLayout() {
+        addSubview(displayView)
+        addSubview(segmentedController)
         
+        segmentedController.translatesAutoresizingMaskIntoConstraints = false
+        
+        let segmentedControllerConstraints = [
+            segmentedController.bottomAnchor.constraint(equalTo: bottomAnchor),
+            segmentedController.leadingAnchor.constraint(equalTo: leadingAnchor),
+            segmentedController.trailingAnchor.constraint(equalTo: trailingAnchor),
+            segmentedController.heightAnchor.constraint(equalToConstant: 30)
+        ]
+        
+        segmentedControllerConstraints[3].priority = UILayoutPriority(900)
+        
+        NSLayoutConstraint.activate(segmentedControllerConstraints)
+        
+        let displayViewConstraints = [
+            displayView.topAnchor.constraint(equalTo: topAnchor),
+            displayView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            displayView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            displayView.bottomAnchor.constraint(equalTo: segmentedController.topAnchor)
+        ]
+        
+        NSLayoutConstraint.activate(displayViewConstraints)
+        
+        
+    }
+    
+    func configureComponents() {
+        print(displayView.frame.width)
+        displayView.contentSize = CGSize(width: 1050, height: 260)
+        displayView.alwaysBounceVertical = false
+        displayView.alwaysBounceHorizontal = true
+        displayView.isPagingEnabled = true
+        displayView.showsHorizontalScrollIndicator = false
     }
 }

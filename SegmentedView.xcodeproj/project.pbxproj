@@ -18,6 +18,7 @@
 		7A2BDEFE284DDEEE00D53858 /* SegmentedView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A2BDEAD284DD9F800D53858 /* SegmentedView.framework */; };
 		7A2BDEFF284DDEEE00D53858 /* SegmentedView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7A2BDEAD284DD9F800D53858 /* SegmentedView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7A2BDF05284DE5DD00D53858 /* LookinServer in Frameworks */ = {isa = PBXBuildFile; productRef = 7A2BDF04284DE5DD00D53858 /* LookinServer */; };
+		7AAA60B6284E2C0400306DB7 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7AAA60B5284E2C0400306DB7 /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A2BDF05284DE5DD00D53858 /* LookinServer in Frameworks */,
+				7AAA60B6284E2C0400306DB7 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,6 +159,7 @@
 			name = SegmentedView;
 			packageProductDependencies = (
 				7A2BDF04284DE5DD00D53858 /* LookinServer */,
+				7AAA60B5284E2C0400306DB7 /* SnapKit */,
 			);
 			productName = SegmentedView;
 			productReference = 7A2BDEAD284DD9F800D53858 /* SegmentedView.framework */;
@@ -211,6 +214,7 @@
 			mainGroup = 7A2BDEA3284DD9F800D53858;
 			packageReferences = (
 				7A2BDF03284DE5DD00D53858 /* XCRemoteSwiftPackageReference "LookinServer" */,
+				7AAA60B4284E2C0400306DB7 /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = 7A2BDEAE284DD9F800D53858 /* Products */;
 			projectDirPath = "";
@@ -555,6 +559,14 @@
 				version = 1.0.6;
 			};
 		};
+		7AAA60B4284E2C0400306DB7 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = exactVersion;
+				version = 5.6.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -562,6 +574,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7A2BDF03284DE5DD00D53858 /* XCRemoteSwiftPackageReference "LookinServer" */;
 			productName = LookinServer;
+		};
+		7AAA60B5284E2C0400306DB7 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7AAA60B4284E2C0400306DB7 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

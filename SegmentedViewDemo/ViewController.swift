@@ -7,15 +7,20 @@
 
 import UIKit
 import SegmentedView
+import SnapKit
 
 class ViewController: UIViewController {
     override func viewDidLoad() {
         view.backgroundColor = .gray
     
-        let segmentedView = SegmentedView(frame: CGRect(x: 100,
-                                                        y: 100,
-                                                        width: 200,
-                                                        height: 200))
+        let segmentedView = SegmentedView()
         view.addSubview(segmentedView)
+        
+        segmentedView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(500)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.leading.equalToSuperview().offset(20)
+            make.trailing.equalToSuperview().inset(20)
+        }
     }
 }
