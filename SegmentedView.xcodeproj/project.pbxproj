@@ -14,13 +14,14 @@
 		7A2BDEF4284DDAEC00D53858 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2BDEF3284DDAEC00D53858 /* SceneDelegate.swift */; };
 		7A2BDEF6284DDB3800D53858 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2BDEF5284DDB3800D53858 /* ViewController.swift */; };
 		7A2BDEF8284DDBB700D53858 /* SegmentedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2BDEF7284DDBB700D53858 /* SegmentedView.swift */; };
-		7A2BDEFC284DDCB100D53858 /* SegmentedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2BDEFB284DDCB100D53858 /* SegmentedController.swift */; };
+		7A2BDEFC284DDCB100D53858 /* SegmentedBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A2BDEFB284DDCB100D53858 /* SegmentedBar.swift */; };
 		7A2BDEFE284DDEEE00D53858 /* SegmentedView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A2BDEAD284DD9F800D53858 /* SegmentedView.framework */; };
 		7A2BDEFF284DDEEE00D53858 /* SegmentedView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7A2BDEAD284DD9F800D53858 /* SegmentedView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7A2BDF05284DE5DD00D53858 /* LookinServer in Frameworks */ = {isa = PBXBuildFile; productRef = 7A2BDF04284DE5DD00D53858 /* LookinServer */; };
 		7AAA60B6284E2C0400306DB7 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7AAA60B5284E2C0400306DB7 /* SnapKit */; };
 		7AAA60B8284F32DC00306DB7 /* UIViewShadowExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AAA60B7284F32DC00306DB7 /* UIViewShadowExtension.swift */; };
 		7AAA60BA284F4EA500306DB7 /* DisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AAA60B9284F4EA500306DB7 /* DisplayView.swift */; };
+		7AAA60E22850819A00306DB7 /* SliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AAA60E12850819A00306DB7 /* SliderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,9 +59,10 @@
 		7A2BDEF3284DDAEC00D53858 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		7A2BDEF5284DDB3800D53858 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		7A2BDEF7284DDBB700D53858 /* SegmentedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedView.swift; sourceTree = "<group>"; };
-		7A2BDEFB284DDCB100D53858 /* SegmentedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedController.swift; sourceTree = "<group>"; };
+		7A2BDEFB284DDCB100D53858 /* SegmentedBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedBar.swift; sourceTree = "<group>"; };
 		7AAA60B7284F32DC00306DB7 /* UIViewShadowExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewShadowExtension.swift; sourceTree = "<group>"; };
 		7AAA60B9284F4EA500306DB7 /* DisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayView.swift; sourceTree = "<group>"; };
+		7AAA60E12850819A00306DB7 /* SliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,9 +110,10 @@
 			children = (
 				7A2BDEB0284DD9F800D53858 /* SegmentedView.h */,
 				7A2BDEF7284DDBB700D53858 /* SegmentedView.swift */,
-				7A2BDEFB284DDCB100D53858 /* SegmentedController.swift */,
+				7A2BDEFB284DDCB100D53858 /* SegmentedBar.swift */,
 				7AAA60B7284F32DC00306DB7 /* UIViewShadowExtension.swift */,
 				7AAA60B9284F4EA500306DB7 /* DisplayView.swift */,
+				7AAA60E12850819A00306DB7 /* SliderView.swift */,
 			);
 			path = SegmentedView;
 			sourceTree = "<group>";
@@ -258,8 +261,9 @@
 			files = (
 				7AAA60B8284F32DC00306DB7 /* UIViewShadowExtension.swift in Sources */,
 				7AAA60BA284F4EA500306DB7 /* DisplayView.swift in Sources */,
-				7A2BDEFC284DDCB100D53858 /* SegmentedController.swift in Sources */,
+				7A2BDEFC284DDCB100D53858 /* SegmentedBar.swift in Sources */,
 				7A2BDEF8284DDBB700D53858 /* SegmentedView.swift in Sources */,
+				7AAA60E22850819A00306DB7 /* SliderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

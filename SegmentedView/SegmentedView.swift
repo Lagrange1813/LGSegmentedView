@@ -13,21 +13,61 @@ enum DisplayMode {
     case bottom
 }
 
+enum CountingMode {
+    case barFirst
+    case viewFirst
+    case max
+}
+
 public class SegmentedView: UIView {
-    let displayView = UIScrollView()
-    let segmentedController = SegmentedController()
+    var barHeight: CGFloat = 35
+    var displayMode: DisplayMode = .bottom
+    var countingMode: CountingMode = .barFirst
     
-    var pageCount: CGFloat = 3
-    var controllerHeight: CGFloat = 35
+    lazy var displayView = UIScrollView()
+    lazy var segmentedBar = SegmentedBar(barHeight: barHeight)
     
-    override public var bounds: CGRect {
+    var barItems: [String] {
         didSet {
-            displayView.contentSize = CGSize(width: bounds.width * pageCount,
-                                             height: bounds.height - controllerHeight)
+            print("Touched")
+            segmentedBar.setSegmentItems(barItems)
         }
     }
     
-    override public init(frame: CGRect) {
+    var views: [UIView] {
+        didSet {
+            displayView.contentSize = CGSize(width: bounds.width * CGFloat(count),
+                                             height: bounds.height - barHeight)
+        }
+    }
+    
+    var count: Int {
+        var number = 0
+        switch countingMode {
+        case .barFirst:
+            number = barItems.count
+        case .viewFirst:
+            number = views.count
+        case .max:
+            number = max(barItems.count, views.count)
+        }
+        return number
+    }
+    
+    override public var bounds: CGRect {
+        didSet {
+            displayView.contentSize = CGSize(width: bounds.width * CGFloat(count),
+                                             height: bounds.height - barHeight)
+        }
+    }
+    
+    public init(frame: CGRect = .zero,
+                barItems: [String] = [],
+                views: [UIView] = [])
+    {
+        self.barItems = barItems
+        self.views = views
+        
         super.init(frame: frame)
         
         backgroundColor = .white
@@ -47,33 +87,40 @@ public class SegmentedView: UIView {
     
     func configureLayout() {
         addSubview(displayView)
-        addSubview(segmentedController)
+        addSubview(segmentedBar)
         
-        segmentedController.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview().inset(10)
-            make.height.equalTo(35)
-        }
-        
-        displayView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-            make.bottom.equalTo(segmentedController.snp.top)
+        switch displayMode {
+        case .top:
+            break
+        case .bottom:
+            segmentedBar.snp.makeConstraints { make in
+                make.leading.equalToSuperview().offset(20)
+                make.trailing.equalToSuperview().inset(20)
+                make.bottom.equalToSuperview().inset(10)
+                make.height.equalTo(barHeight)
+            }
+            
+            displayView.snp.makeConstraints { make in
+                make.top.equalToSuperview()
+                make.leading.equalToSuperview()
+                make.trailing.equalToSuperview()
+                make.bottom.equalTo(segmentedBar.snp.top)
+            }
         }
     }
     
     func configureComponents() {
-        print(displayView.frame.width)
+        segmentedBar.setSegmentItems(barItems)
+        
+        segmentedBar.delegate = self
+        
         displayView.alwaysBounceVertical = false
         displayView.alwaysBounceHorizontal = true
         displayView.isPagingEnabled = true
         displayView.showsHorizontalScrollIndicator = false
         displayView.showsVerticalScrollIndicator = false
         
-        let titles = ["First", "Second", "Third"]
-        segmentedController.setSegmentItems(titles)
+        displayView.delegate = self
         
         let label1 = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         label1.text = "Label1"
@@ -87,4 +134,12 @@ public class SegmentedView: UIView {
         label3.text = "Label3"
         displayView.addSubview(label3)
     }
+}
+
+extension SegmentedView: SegmentedBarDelegate {
+    func segmentedIndexDidChange() {}
+}
+
+extension SegmentedView: UIScrollViewDelegate {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {}
 }

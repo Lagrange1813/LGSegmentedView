@@ -1,5 +1,5 @@
 //
-//  SegmentedController.swift
+//  SegmentedBar.swift
 //  SegmentedView
 //
 //  Created by 张维熙 on 2022/6/6.
@@ -7,52 +7,12 @@
 
 import UIKit
 
-private class SliderView: UIView {
-    fileprivate let sliderMaskView = UIView()
-
-    var cornerRadius: CGFloat = 0 {
-        didSet {
-            layer.cornerRadius = cornerRadius
-            sliderMaskView.layer.cornerRadius = cornerRadius
-        }
-    }
-
-    override var frame: CGRect {
-        didSet {
-            sliderMaskView.frame = frame
-        }
-    }
-
-    override var center: CGPoint {
-        didSet {
-            sliderMaskView.center = center
-        }
-    }
-
-    init() {
-        super.init(frame: .zero)
-        setup()
-    }
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setup()
-    }
-
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    private func setup() {
-        layer.masksToBounds = true
-        sliderMaskView.backgroundColor = .black
-        sliderMaskView.addShadow(with: .black)
-    }
+@objc protocol SegmentedBarDelegate {
+    func segmentedIndexDidChange()
 }
 
-class SegmentedController: UIControl {
-    private var height: CGFloat = 35
+class SegmentedBar: UIControl {
+    private var height: CGFloat
 
     override var bounds: CGRect {
         didSet {
@@ -60,13 +20,10 @@ class SegmentedController: UIControl {
         }
     }
 
-    override init(frame: CGRect) {
+    init(frame: CGRect = .zero, barHeight: CGFloat) {
+        self.height = barHeight
         super.init(frame: frame)
         configure()
-    }
-
-    convenience init() {
-        self.init(frame: .zero)
     }
 
     @available(*, unavailable)
@@ -129,6 +86,8 @@ class SegmentedController: UIControl {
     private lazy var backgroundView = UIView()
     private lazy var selectedView = UIView()
     private lazy var sliderView = SliderView()
+    
+    weak var delegate: SegmentedBarDelegate?
 
     private func configure() {
         addSubview(containerView)
@@ -141,23 +100,13 @@ class SegmentedController: UIControl {
         addDragGesture()
     }
 
-    open func setSegmentItems(_ segments: [String]) {
+    func setSegmentItems(_ segments: [String]) {
         guard !segments.isEmpty else { fatalError("Segments array cannot be empty") }
 
         self.segments = segments
         configureViews()
 
-        clearLabels()
-
-//        let backgroundStackView = UIStackView()
-//        backgroundStackView.alignment = .fill
-//        backgroundStackView.axis = .horizontal
-//        backgroundStackView.distribution = .fill
-//
-//        let selectedStackView = UIStackView()
-//        selectedStackView.alignment = .fill
-//        selectedStackView.axis = .horizontal
-//        selectedStackView.distribution = .fill
+        removeLabels()
 
         var backgroundLabels: [UILabel] = []
         var selectedLabels: [UILabel] = []
@@ -280,29 +229,15 @@ class SegmentedController: UIControl {
         }
     }
 
-    // MARK: Labels
+    // MARK: Configure Labels
 
-    private func clearLabels() {
+    private func removeLabels() {
         backgroundView.subviews.forEach { $0.removeFromSuperview() }
         selectedView.subviews.forEach { $0.removeFromSuperview() }
     }
 
     private func createLabel(with text: String, selected: Bool) -> UILabel {
         let label = UILabel()
-
-//        if selected {
-//            selectedView.addSubview(label)
-//        } else {
-//            backgroundView.addSubview(label)
-//        }
-
-//        label.snp.makeConstraints { make in
-//            make.top.equalToSuperview()
-//            make.bottom.equalToSuperview()
-//            make.width.equalToSuperview().dividedBy(3)
-//        }
-
-//        label.snp.makeConstraints{$0.leading.equalTo(label.snp.width)}
 
         label.text = text
         label.textAlignment = .center
