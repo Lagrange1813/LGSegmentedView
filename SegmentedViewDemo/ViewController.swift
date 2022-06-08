@@ -14,6 +14,7 @@ class ViewController: UIViewController {
         view.backgroundColor = .gray
     
         let segmentedView = SegmentedView(barItems: ["Test1", "Test2", "Test3"])
+//        let segmentedView = SegmentedView()
         view.addSubview(segmentedView)
         
         segmentedView.snp.makeConstraints { make in

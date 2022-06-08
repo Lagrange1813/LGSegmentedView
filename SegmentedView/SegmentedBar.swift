@@ -23,7 +23,8 @@ class SegmentedBar: UIControl {
     init(frame: CGRect = .zero, barHeight: CGFloat) {
         self.height = barHeight
         super.init(frame: frame)
-        configure()
+        configureLayout()
+        configureView()
     }
 
     @available(*, unavailable)
@@ -70,14 +71,15 @@ class SegmentedBar: UIControl {
 
     private var selectedSegmentIndex: Int = 0
 
-    private var segments: [String] = []
+    private var segmentTitles: [String] = []
+    private var segmentIcons: [UIImage] = []
 
-    private var numberOfSegments: Int {
-        return segments.count
+    private var countOfSegments: Int {
+        segmentTitles.isEmpty ? 1 : segmentTitles.count
     }
 
     private var segmentWidth: CGFloat {
-        return backgroundView.frame.width / CGFloat(numberOfSegments)
+        return bounds.width / CGFloat(countOfSegments)
     }
 
     private var correction: CGFloat = 0
@@ -86,85 +88,15 @@ class SegmentedBar: UIControl {
     private lazy var backgroundView = UIView()
     private lazy var selectedView = UIView()
     private lazy var sliderView = SliderView()
-    
+
     weak var delegate: SegmentedBarDelegate?
 
-    private func configure() {
+    private func configureLayout() {
         addSubview(containerView)
         containerView.addSubview(backgroundView)
         containerView.addSubview(selectedView)
         containerView.addSubview(sliderView)
 
-        selectedView.layer.mask = sliderView.sliderMaskView.layer
-        addTapGesture()
-        addDragGesture()
-    }
-
-    func setSegmentItems(_ segments: [String]) {
-        guard !segments.isEmpty else { fatalError("Segments array cannot be empty") }
-
-        self.segments = segments
-        configureViews()
-
-        removeLabels()
-
-        var backgroundLabels: [UILabel] = []
-        var selectedLabels: [UILabel] = []
-
-        let firstBackgroundLabel = createLabel(with: segments[0], selected: false)
-        backgroundView.addSubview(firstBackgroundLabel)
-        firstBackgroundLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.leading.equalToSuperview()
-            make.width.equalToSuperview().dividedBy(3)
-        }
-
-        let firstSelectedLabel = createLabel(with: segments[0], selected: true)
-        selectedView.addSubview(firstSelectedLabel)
-        firstSelectedLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.leading.equalToSuperview()
-            make.width.equalToSuperview().dividedBy(3)
-        }
-
-        backgroundLabels.append(firstBackgroundLabel)
-        selectedLabels.append(firstSelectedLabel)
-
-        for (index, title) in segments.enumerated().dropFirst() {
-            print(index, title)
-
-            let backgroundLabel = createLabel(with: title, selected: false)
-            backgroundView.addSubview(backgroundLabel)
-            backgroundLabel.snp.makeConstraints { make in
-                make.top.equalToSuperview()
-                make.bottom.equalToSuperview()
-                make.leading.equalTo(backgroundLabels[index - 1].snp.trailing)
-                make.width.equalToSuperview().dividedBy(3)
-            }
-
-            backgroundLabels.append(backgroundLabel)
-
-            let selectedLabel = createLabel(with: title, selected: true)
-            selectedView.addSubview(selectedLabel)
-            selectedLabel.snp.makeConstraints { make in
-                make.top.equalToSuperview()
-                make.bottom.equalToSuperview()
-                make.leading.equalTo(backgroundLabels[index - 1].snp.trailing)
-                make.width.equalToSuperview().dividedBy(3)
-            }
-
-            selectedLabels.append(selectedLabel)
-        }
-
-//        backgroundView.addSubview(backgroundStackView)
-//        selectedView.addSubview(selectedStackView)
-
-//        setupAutoresizingMasks()
-    }
-
-    private func configureViews() {
         containerView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.leading.equalToSuperview()
@@ -185,39 +117,91 @@ class SegmentedBar: UIControl {
             make.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
         }
-
-//        sliderView.snp.makeConstraints { make in
-//            make.top.equalToSuperview()
-//            make.leading.equalToSuperview()
-//            make.width.equalToSuperview().dividedBy(3)
-//            make.bottom.equalToSuperview()
-//        }
-
-        let cornerRadius = height / 2
-        [backgroundView, selectedView].forEach { $0.layer.cornerRadius = cornerRadius }
-        sliderView.cornerRadius = cornerRadius
-
-        backgroundColor = .clear
-        backgroundView.backgroundColor = segmentsBackgroundColor
-        selectedView.backgroundColor = sliderBackgroundColor
-
-        if !isSliderShadowHidden {
-            selectedView.addShadow(with: sliderBackgroundColor)
-        }
     }
 
     func updateViewLayout(with width: CGFloat) {
-        let sliderWidth = width / 3.0
+        let sliderWidth = width / CGFloat(countOfSegments)
         sliderView.frame = CGRect(x: CGFloat(selectedSegmentIndex) * sliderWidth,
                                   y: 0, width: sliderWidth, height: height)
     }
 
-//    private func setupAutoresizingMasks() {
-//        containerView.autoresizingMask = [.flexibleWidth]
-//        backgroundView.autoresizingMask = [.flexibleWidth]
-//        selectedView.autoresizingMask = [.flexibleWidth]
-//        sliderView.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin, .flexibleWidth]
-//    }
+    private func configureView() {
+        backgroundColor = .clear
+        backgroundView.backgroundColor = segmentsBackgroundColor
+        selectedView.backgroundColor = sliderBackgroundColor
+
+        let cornerRadius = height / 2
+        backgroundView.layer.cornerRadius = cornerRadius
+        selectedView.layer.cornerRadius = cornerRadius
+        sliderView.cornerRadius = cornerRadius
+
+        selectedView.layer.mask = sliderView.sliderMaskView.layer
+
+        if !isSliderShadowHidden {
+            selectedView.addShadow(with: sliderBackgroundColor)
+        }
+
+        addTapGesture()
+        addDragGesture()
+    }
+
+    func setSegmentItems(_ segmentTitles: [String]) {
+        guard !segmentTitles.isEmpty else { return }
+
+        self.segmentTitles = segmentTitles
+
+        removeLabels()
+
+        var backgroundLabels: [UILabel] = []
+        var selectedLabels: [UILabel] = []
+
+        let firstBackgroundLabel = createLabel(with: segmentTitles[0], selected: false)
+        backgroundView.addSubview(firstBackgroundLabel)
+        firstBackgroundLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.width.equalToSuperview().dividedBy(CGFloat(countOfSegments))
+        }
+
+        let firstSelectedLabel = createLabel(with: segmentTitles[0], selected: true)
+        selectedView.addSubview(firstSelectedLabel)
+        firstSelectedLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.width.equalToSuperview().dividedBy(CGFloat(countOfSegments))
+        }
+
+        backgroundLabels.append(firstBackgroundLabel)
+        selectedLabels.append(firstSelectedLabel)
+
+        for (index, title) in segmentTitles.enumerated().dropFirst() {
+            print(index, title)
+
+            let backgroundLabel = createLabel(with: title, selected: false)
+            backgroundView.addSubview(backgroundLabel)
+            backgroundLabel.snp.makeConstraints { make in
+                make.top.equalToSuperview()
+                make.bottom.equalToSuperview()
+                make.leading.equalTo(backgroundLabels[index - 1].snp.trailing)
+                make.width.equalToSuperview().dividedBy(CGFloat(countOfSegments))
+            }
+
+            backgroundLabels.append(backgroundLabel)
+
+            let selectedLabel = createLabel(with: title, selected: true)
+            selectedView.addSubview(selectedLabel)
+            selectedLabel.snp.makeConstraints { make in
+                make.top.equalToSuperview()
+                make.bottom.equalToSuperview()
+                make.leading.equalTo(backgroundLabels[index - 1].snp.trailing)
+                make.width.equalToSuperview().dividedBy(CGFloat(countOfSegments))
+            }
+
+            selectedLabels.append(selectedLabel)
+        }
+    }
 
     private func updateShadow(with color: UIColor, hidden: Bool) {
         if hidden {
@@ -309,7 +293,7 @@ class SegmentedBar: UIControl {
     private func segmentIndex(for point: CGPoint) -> Int {
         var index = Int(point.x / sliderView.frame.width)
         if index < 0 { index = 0 }
-        if index > numberOfSegments - 1 { index = numberOfSegments - 1 }
+        if index > countOfSegments - 1 { index = countOfSegments - 1 }
         return index
     }
 
