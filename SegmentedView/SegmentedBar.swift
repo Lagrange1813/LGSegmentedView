@@ -266,7 +266,10 @@ class SegmentedBar: UIControl {
         case .changed:
             let location = panGesture.location(in: self)
             sliderView.center.x = location.x - correction
-        case .possible: ()
+        case .possible:
+            break
+        @unknown default:
+            break
         }
     }
 
