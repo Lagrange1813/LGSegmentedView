@@ -331,9 +331,14 @@ class SegmentedBar: UIControl {
         CGFloat(index) * sliderView.frame.width + sliderView.frame.width / 2
     }
     
+    private func leftBoundary(at index: Int) -> CGFloat {
+        CGFloat(index) * sliderView.frame.width
+    }
+    
     private func animate(to index: Int) {
         UIView.animate(withDuration: 0.2, animations: {
-            self.sliderView.center.x = self.center(at: index)
+//            self.sliderView.center.x = self.center(at: index)
+            self.sliderView.frame.origin.x = self.leftBoundary(at: index)
         }, completion: { _ in
             self.delegate?.segmentedBarDidEndScroll(self)
             self.barState = .still
@@ -358,6 +363,7 @@ class SegmentedBar: UIControl {
     
     @objc func listen() {
         if pursuing {
+//            print(Date())
             delegate?.sliderViewDidMove(self)
         }
     }

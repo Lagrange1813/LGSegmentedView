@@ -147,6 +147,8 @@ extension SegmentedView: SegmentedBarDelegate {
     func sliderViewDidMove(_ segmentedBar: SegmentedBar) {
         let width = displayView.contentSize.width
         let proportion = segmentedBar.sliderView.frame.origin.x / segmentedBar.bounds.width
+//        print(proportion)
+        print(segmentedBar.sliderView.layer.presentation()?.frame.origin.x)
         let position = width * proportion
         displayView.contentOffset = CGPoint(x: position, y: 0)
     }
