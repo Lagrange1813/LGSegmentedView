@@ -29,7 +29,6 @@ public class SegmentedView: UIView {
     
     var barItems: [String] {
         didSet {
-            print("Touched")
             segmentedBar.setSegmentItems(barItems)
         }
     }
@@ -137,9 +136,35 @@ public class SegmentedView: UIView {
 }
 
 extension SegmentedView: SegmentedBarDelegate {
-    func segmentedIndexDidChange() {}
+    func segmentedBarWillStartScroll(_ segmentedBar: SegmentedBar) {
+        displayView.isUserInteractionEnabled = false
+    }
+    
+    func segmentedBarDidEndScroll(_ segmentedBar: SegmentedBar) {
+        displayView.isUserInteractionEnabled = true
+    }
+    
+    func sliderViewDidMove(_ segmentedBar: SegmentedBar) {
+        let width = displayView.contentSize.width
+        let proportion = segmentedBar.sliderView.frame.origin.x / segmentedBar.bounds.width
+        let position = width * proportion
+        displayView.contentOffset = CGPoint(x: position, y: 0)
+    }
 }
 
 extension SegmentedView: UIScrollViewDelegate {
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {}
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let width = segmentedBar.bounds.width
+        let proportion = scrollView.contentOffset.x / scrollView.contentSize.width
+        let position = width * proportion
+        segmentedBar.setSliderView(at: position)
+    }
+    
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        segmentedBar.isUserInteractionEnabled = false
+    }
+    
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        segmentedBar.isUserInteractionEnabled = true
+    }
 }

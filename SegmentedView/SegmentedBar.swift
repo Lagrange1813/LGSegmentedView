@@ -8,7 +8,14 @@
 import UIKit
 
 @objc protocol SegmentedBarDelegate {
-    func segmentedIndexDidChange()
+    func sliderViewDidMove(_ segmentedBar: SegmentedBar)
+    func segmentedBarWillStartScroll(_ segmentedBar: SegmentedBar)
+    func segmentedBarDidEndScroll(_ segmentedBar: SegmentedBar)
+}
+
+fileprivate enum SegmentedBarState {
+    case move
+    case still
 }
 
 class SegmentedBar: UIControl {
@@ -16,7 +23,7 @@ class SegmentedBar: UIControl {
 
     override var bounds: CGRect {
         didSet {
-            updateViewLayout(with: bounds.width)
+            updateSliderView(with: bounds.width)
         }
     }
 
@@ -25,6 +32,9 @@ class SegmentedBar: UIControl {
         super.init(frame: frame)
         configureLayout()
         configureView()
+        
+        velocityLoop = CADisplayLink(target: self, selector: #selector(listen))
+        velocityLoop?.add(to: RunLoop.current, forMode: RunLoop.Mode(rawValue: RunLoop.Mode.common.rawValue))
     }
 
     @available(*, unavailable)
@@ -69,7 +79,20 @@ class SegmentedBar: UIControl {
         }
     }
 
-    private var selectedSegmentIndex: Int = 0
+    private var barState: SegmentedBarState = .still {
+        didSet {
+            if oldValue == .still && barState == .move {
+                delegate?.segmentedBarWillStartScroll(self)
+                pursuing = true
+            }
+            
+            if barState == .still {
+                pursuing = false
+            }
+        }
+    }
+    
+    private var selectedIndex: Int = 0
 
     private var segmentTitles: [String] = []
     private var segmentIcons: [UIImage] = []
@@ -87,9 +110,12 @@ class SegmentedBar: UIControl {
     private lazy var containerView = UIView()
     private lazy var backgroundView = UIView()
     private lazy var selectedView = UIView()
-    private lazy var sliderView = SliderView()
+    lazy var sliderView = SliderView()
 
     weak var delegate: SegmentedBarDelegate?
+    
+    var velocityLoop: CADisplayLink?
+    var pursuing: Bool = false
 
     private func configureLayout() {
         addSubview(containerView)
@@ -119,9 +145,9 @@ class SegmentedBar: UIControl {
         }
     }
 
-    func updateViewLayout(with width: CGFloat) {
+    func updateSliderView(with width: CGFloat) {
         let sliderWidth = width / CGFloat(countOfSegments)
-        sliderView.frame = CGRect(x: CGFloat(selectedSegmentIndex) * sliderWidth,
+        sliderView.frame = CGRect(x: CGFloat(selectedIndex) * sliderWidth,
                                   y: 0, width: sliderWidth, height: height)
     }
 
@@ -177,8 +203,6 @@ class SegmentedBar: UIControl {
         selectedLabels.append(firstSelectedLabel)
 
         for (index, title) in segmentTitles.enumerated().dropFirst() {
-            print(index, title)
-
             let backgroundLabel = createLabel(with: title, selected: false)
             backgroundView.addSubview(backgroundLabel)
             backgroundLabel.snp.makeConstraints { make in
@@ -254,60 +278,87 @@ class SegmentedBar: UIControl {
     }
 
     @objc private func didTap(tapGesture: UITapGestureRecognizer) {
-        moveToNearestPoint(basedOn: tapGesture)
+        moveToNearestSegment(on: tapGesture)
+        switch tapGesture.state {
+        case .ended,.cancelled, .failed:
+            barState = .move
+            break
+        default:
+            break
+        }
     }
 
     @objc private func didPan(panGesture: UIPanGestureRecognizer) {
         switch panGesture.state {
         case .cancelled, .ended, .failed:
-            moveToNearestPoint(basedOn: panGesture, velocity: panGesture.velocity(in: sliderView))
+            moveToNearestSegment(on: panGesture)
         case .began:
+            barState = .move
             correction = panGesture.location(in: sliderView).x - sliderView.frame.width / 2
         case .changed:
             let location = panGesture.location(in: self)
             sliderView.center.x = location.x - correction
-        case .possible:
-            break
-        @unknown default:
+        default:
             break
         }
     }
 
     // MARK: Slider position
-
-    private func moveToNearestPoint(basedOn gesture: UIGestureRecognizer, velocity: CGPoint? = nil) {
-        var location = gesture.location(in: self)
-        if let velocity = velocity {
-            let offset = velocity.x / 12
-            location.x += offset
-        }
-        let index = segmentIndex(for: location)
+    
+    func setSliderView(at location: CGFloat) {
+        sliderView.frame.origin.x = location
+    }
+    
+    private func moveToNearestSegment(on gesture: UIGestureRecognizer) {        
+        let location = gesture.location(in: self)
+        let index = index(at: location)
         move(to: index)
-//        delegate?.didSelect(index)
     }
 
     open func move(to index: Int) {
-        let correctOffset = center(at: index)
-        animate(to: correctOffset)
-
-        selectedSegmentIndex = index
+        animate(to: index)
+        selectedIndex = index
     }
 
-    private func segmentIndex(for point: CGPoint) -> Int {
+    private func index(at point: CGPoint) -> Int {
         var index = Int(point.x / sliderView.frame.width)
         if index < 0 { index = 0 }
-        if index > countOfSegments - 1 { index = countOfSegments - 1 }
+        else if index > countOfSegments - 1 { index = countOfSegments - 1 }
         return index
     }
 
     private func center(at index: Int) -> CGFloat {
-        let xOffset = CGFloat(index) * sliderView.frame.width + sliderView.frame.width / 2
-        return xOffset
+        CGFloat(index) * sliderView.frame.width + sliderView.frame.width / 2
     }
-
-    private func animate(to position: CGFloat) {
-        UIView.animate(withDuration: 0.2) {
-            self.sliderView.center.x = position
+    
+    private func animate(to index: Int) {
+        UIView.animate(withDuration: 0.2, animations: {
+            self.sliderView.center.x = self.center(at: index)
+        }, completion: { _ in
+            self.delegate?.segmentedBarDidEndScroll(self)
+            self.barState = .still
+        })
+        
+//        let queue = DispatchQueue.main
+//
+//        let item = DispatchWorkItem {
+//
+//            UIView.animate(withDuration: 0.2, animations: {
+//                self.sliderView.center.x = self.center(at: index)
+//            }, completion: { _ in
+//                self.delegate?.segmentedBarDidEndScroll()
+//                self.barState = .still
+//            })
+//        }
+//
+//        queue.async(execute: item)
+    }
+    
+    // MARK: Monitoring Method
+    
+    @objc func listen() {
+        if pursuing {
+            delegate?.sliderViewDidMove(self)
         }
     }
 }
