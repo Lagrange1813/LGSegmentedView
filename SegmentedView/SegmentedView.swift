@@ -19,6 +19,12 @@ enum CountingMode {
     case max
 }
 
+fileprivate enum MovingArea {
+    case displayView
+    case segmentedBar
+    case undefined
+}
+
 public class SegmentedView: UIView {
     var barHeight: CGFloat = 35
     var displayMode: DisplayMode = .bottom
@@ -26,6 +32,8 @@ public class SegmentedView: UIView {
     
     lazy var displayView = UIScrollView()
     lazy var segmentedBar = SegmentedBar(barHeight: barHeight)
+    
+    private var area: MovingArea = .undefined
     
     var barItems: [String] {
         didSet {
@@ -121,15 +129,15 @@ public class SegmentedView: UIView {
         
         displayView.delegate = self
         
-        let label1 = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        let label1 = UILabel(frame: CGRect(x: 0, y: 0, width: 80, height: 50))
         label1.text = "Label1"
         displayView.addSubview(label1)
         
-        let label2 = UILabel(frame: CGRect(x: 350, y: 0, width: 50, height: 50))
+        let label2 = UILabel(frame: CGRect(x: 350, y: 0, width: 80, height: 50))
         label2.text = "Label2"
         displayView.addSubview(label2)
         
-        let label3 = UILabel(frame: CGRect(x: 700, y: 0, width: 50, height: 50))
+        let label3 = UILabel(frame: CGRect(x: 700, y: 0, width: 80, height: 50))
         label3.text = "Label3"
         displayView.addSubview(label3)
     }
@@ -138,24 +146,31 @@ public class SegmentedView: UIView {
 extension SegmentedView: SegmentedBarDelegate {
     func segmentedBarWillStartScroll(_ segmentedBar: SegmentedBar) {
         displayView.isUserInteractionEnabled = false
+        area = .segmentedBar
     }
     
     func segmentedBarDidEndScroll(_ segmentedBar: SegmentedBar) {
         displayView.isUserInteractionEnabled = true
+        area = .undefined
     }
     
     func sliderViewDidMove(_ segmentedBar: SegmentedBar) {
+        guard area == .segmentedBar else { return }
+        
         let width = displayView.contentSize.width
-        let proportion = segmentedBar.sliderView.frame.origin.x / segmentedBar.bounds.width
-//        print(proportion)
-        print(segmentedBar.sliderView.layer.presentation()?.frame.origin.x)
+        let proportion = (segmentedBar.sliderView.layer.presentation()?.frame.origin.x ?? 0) / segmentedBar.bounds.width
+        print(proportion)
+//        print((segmentedBar.sliderView.layer.presentation()?.frame.origin.x ?? 0) / segmentedBar.bounds.width)
         let position = width * proportion
+        print(position)
         displayView.contentOffset = CGPoint(x: position, y: 0)
     }
 }
 
 extension SegmentedView: UIScrollViewDelegate {
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard area == .displayView else { return }
+        
         let width = segmentedBar.bounds.width
         let proportion = scrollView.contentOffset.x / scrollView.contentSize.width
         let position = width * proportion
@@ -164,9 +179,11 @@ extension SegmentedView: UIScrollViewDelegate {
     
     public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         segmentedBar.isUserInteractionEnabled = false
+        area = .displayView
     }
     
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         segmentedBar.isUserInteractionEnabled = true
+        area = .undefined
     }
 }

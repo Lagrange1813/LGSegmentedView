@@ -337,8 +337,8 @@ class SegmentedBar: UIControl {
     
     private func animate(to index: Int) {
         UIView.animate(withDuration: 0.2, animations: {
-//            self.sliderView.center.x = self.center(at: index)
-            self.sliderView.frame.origin.x = self.leftBoundary(at: index)
+            self.sliderView.center.x = self.center(at: index)
+//            self.sliderView.frame.origin.x = self.leftBoundary(at: index)
         }, completion: { _ in
             self.delegate?.segmentedBarDidEndScroll(self)
             self.barState = .still
