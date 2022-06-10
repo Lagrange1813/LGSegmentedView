@@ -42,38 +42,38 @@ class SegmentedBar: UIControl {
         fatalError("init(coder:) has not been implemented")
     }
 
-    open var defaultTextColor: UIColor = Palette.defaultTextColor {
+    var defaultTextColor: UIColor = Palette.defaultTextColor {
         didSet {
             updateLabelsColor(with: defaultTextColor, selected: false)
         }
     }
 
-    open var highlightTextColor: UIColor = Palette.highlightTextColor {
+    var highlightTextColor: UIColor = Palette.highlightTextColor {
         didSet {
             updateLabelsColor(with: highlightTextColor, selected: true)
         }
     }
 
-    open var segmentsBackgroundColor: UIColor = Palette.segmentedControlBackgroundColor {
+    var segmentsBackgroundColor: UIColor = Palette.segmentedControlBackgroundColor {
         didSet {
             backgroundView.backgroundColor = segmentsBackgroundColor
         }
     }
 
-    open var sliderBackgroundColor: UIColor = Palette.sliderColor {
+    var sliderBackgroundColor: UIColor = Palette.sliderColor {
         didSet {
             selectedView.backgroundColor = sliderBackgroundColor
             if !isSliderShadowHidden { selectedView.addShadow(with: sliderBackgroundColor) }
         }
     }
 
-    open var font: UIFont = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium) {
+    var font: UIFont = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium) {
         didSet {
             updateLabelsFont(with: font)
         }
     }
 
-    open var isSliderShadowHidden: Bool = false {
+    var isSliderShadowHidden: Bool = false {
         didSet {
             updateShadow(with: sliderBackgroundColor, hidden: isSliderShadowHidden)
         }
