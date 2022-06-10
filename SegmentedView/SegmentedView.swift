@@ -10,8 +10,14 @@ import UIKit
 
 public class SegmentedView: UIView {
     public var barHeight: CGFloat = 35
-    public var displayMode: DisplayMode = .bottom
-    public var countingMode: CountingMode = .barFirst
+    public var displayMode: SegmentedViewDisplayMode = .bottom
+    public var countingMode: SegmentedViewCountingMode = .barFirst
+    
+    public var currentIndex: Int = 0 {
+        didSet {
+            print(currentIndex)
+        }
+    }
     
     private lazy var displayView = UIScrollView()
     private lazy var segmentedBar = SegmentedBar(barHeight: barHeight)
@@ -48,6 +54,9 @@ public class SegmentedView: UIView {
             displayView.contentSize = CGSize(width: bounds.width * CGFloat(count),
                                              height: bounds.height - barHeight - 10)
             placeViews(with: bounds)
+            displayView.contentOffset = CGPoint(x: bounds.width * CGFloat(currentIndex), y: 0)
+//            print(currentIndex)
+//            print(segmentedBar.selectedIndex)
         }
     }
     
@@ -101,7 +110,7 @@ public class SegmentedView: UIView {
             segmentedBar.snp.makeConstraints { make in
                 make.leading.equalToSuperview().offset(20)
                 make.trailing.equalToSuperview().inset(20)
-                make.bottom.equalToSuperview().inset(10)
+                make.bottom.equalToSuperview().inset(5)
                 make.height.equalTo(barHeight)
             }
             
@@ -109,7 +118,7 @@ public class SegmentedView: UIView {
                 make.top.equalToSuperview()
                 make.leading.equalToSuperview()
                 make.trailing.equalToSuperview()
-                make.bottom.equalTo(segmentedBar.snp.top)
+                make.bottom.equalTo(segmentedBar.snp.top).offset(-5)
             }
         }
     }
@@ -136,7 +145,7 @@ public class SegmentedView: UIView {
 //        let label2 = UILabel(frame: CGRect(x: 350, y: 10, width: 80, height: 50))
 //        label2.text = "Label2"
 //        displayView.addSubview(label2)
-//        
+//
 //        let label3 = UILabel(frame: CGRect(x: 700, y: 10, width: 80, height: 50))
 //        label3.text = "Label3"
 //        displayView.addSubview(label3)
@@ -145,14 +154,17 @@ public class SegmentedView: UIView {
     private func placeViews(with bounds: CGRect) {
         guard !views.isEmpty else { return }
         
-        views[0].frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height)
+        let size = CGSize(width: bounds.width,
+                          height: bounds.height - barHeight - 10)
+        
+        views[0].frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         displayView.addSubview(views[0])
         
-        for (index, view) in views.enumerated().dropFirst() {
+        for (index, view) in views.enumerated().dropFirst().dropLast(views.count - count) {
             let rect = CGRect(x: bounds.width * CGFloat(index),
                               y: 0,
-                              width: bounds.width,
-                              height: bounds.height)
+                              width: size.width,
+                              height: size.height)
             view.frame = rect
             displayView.addSubview(view)
         }
@@ -183,6 +195,7 @@ extension SegmentedView: SegmentedBarDelegate {
         displayView.isUserInteractionEnabled = true
         segmentedBar.isUserInteractionEnabled = true
         area = .undefined
+        currentIndex = segmentedBar.selectedIndex
     }
     
     func sliderViewDidMove(_ segmentedBar: SegmentedBar) {
@@ -213,5 +226,6 @@ extension SegmentedView: UIScrollViewDelegate {
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         segmentedBar.isUserInteractionEnabled = true
         area = .undefined
+        currentIndex = segmentedBar.selectedIndex
     }
 }

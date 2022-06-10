@@ -19,15 +19,18 @@ class ViewController: UIViewController {
         testView2.backgroundColor = .yellow
         let testView3 = UIView()
         testView3.backgroundColor = .blue
+        let testView4 = UIView()
+        testView4.backgroundColor = .green
         
-        let segmentedView = SegmentedView(barItems: ["Test1", "Test2", "Test3"], views: [testView1, testView2, testView3])
+        let segmentedView = SegmentedView(barItems: ["Test1", "Test2", "Test3", "Test4"],
+                                          views: [testView1, testView2, testView3, testView4])
         view.addSubview(segmentedView)
         
         segmentedView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(500)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
+            make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().inset(20)
         }
     }
 }

@@ -13,7 +13,7 @@ import UIKit
     func segmentedBarDidEndScroll(_ segmentedBar: SegmentedBar)
 }
 
-fileprivate enum SegmentedBarState {
+private enum SegmentedBarState {
     case move
     case still
 }
@@ -28,11 +28,11 @@ class SegmentedBar: UIControl {
     }
 
     init(frame: CGRect = .zero, barHeight: CGFloat) {
-        self.height = barHeight
+        height = barHeight
         super.init(frame: frame)
         configureLayout()
         configureView()
-        
+
         velocityLoop = CADisplayLink(target: self, selector: #selector(listen))
         velocityLoop?.add(to: RunLoop.current, forMode: RunLoop.Mode(rawValue: RunLoop.Mode.common.rawValue))
     }
@@ -81,18 +81,22 @@ class SegmentedBar: UIControl {
 
     private var barState: SegmentedBarState = .still {
         didSet {
-            if oldValue == .still && barState == .move {
+            if oldValue == .still, barState == .move {
                 delegate?.segmentedBarWillStartScroll(self)
                 pursuing = true
             }
-            
+
             if barState == .still {
                 pursuing = false
             }
         }
     }
-    
-    private var selectedIndex: Int = 0
+
+    var selectedIndex: Int {
+        let location: CGFloat = sliderView.frame.midX
+        let index: Int = index(at: location)
+        return index
+    }
 
     private var segmentTitles: [String] = []
     private var segmentIcons: [UIImage] = []
@@ -113,7 +117,7 @@ class SegmentedBar: UIControl {
     lazy var sliderView = SliderView()
 
     weak var delegate: SegmentedBarDelegate?
-    
+
     var velocityLoop: CADisplayLink?
     var pursuing: Bool = false
 
@@ -280,9 +284,8 @@ class SegmentedBar: UIControl {
     @objc private func didTap(tapGesture: UITapGestureRecognizer) {
         moveToNearestSegment(on: tapGesture)
         switch tapGesture.state {
-        case .ended,.cancelled, .failed:
+        case .ended, .cancelled, .failed:
             barState = .move
-            break
         default:
             break
         }
@@ -303,38 +306,48 @@ class SegmentedBar: UIControl {
         }
     }
 
-    // MARK: Slider position
-    
+    // MARK: Slider Position
+
     func setSliderView(at location: CGFloat) {
         sliderView.frame.origin.x = location
     }
-    
-    private func moveToNearestSegment(on gesture: UIGestureRecognizer) {        
-        let location = gesture.location(in: self)
+
+    private func moveToNearestSegment(on gesture: UIGestureRecognizer) {
+        let location = gesture.location(in: self).x
         let index = index(at: location)
         move(to: index)
     }
 
     open func move(to index: Int) {
         animate(to: index)
-        selectedIndex = index
     }
-
-    private func index(at point: CGPoint) -> Int {
-        var index = Int(point.x / sliderView.frame.width)
+    
+    private func index(at location: CGFloat) -> Int {
+        guard sliderView.frame.width != 0 else { return 0 }
+        
+        var index = Int(location / sliderView.frame.width)
         if index < 0 { index = 0 }
         else if index > countOfSegments - 1 { index = countOfSegments - 1 }
         return index
     }
+    
+//    private func index(at point: CGPoint) -> Int {
+//        guard sliderView.frame.width != 0 else { return 0 }
+//
+//        var index = Int(point.x / sliderView.frame.width)
+//        if index < 0 { index = 0 }
+//        else if index > countOfSegments - 1 { index = countOfSegments - 1 }
+//        return index
+//    }
 
     private func center(at index: Int) -> CGFloat {
         CGFloat(index) * sliderView.frame.width + sliderView.frame.width / 2
     }
-    
+
     private func leftBoundary(at index: Int) -> CGFloat {
         CGFloat(index) * sliderView.frame.width
     }
-    
+
     private func animate(to index: Int) {
         UIView.animate(withDuration: 0.2, animations: {
             self.sliderView.center.x = self.center(at: index)
@@ -343,7 +356,7 @@ class SegmentedBar: UIControl {
             self.delegate?.segmentedBarDidEndScroll(self)
             self.barState = .still
         })
-        
+
 //        let queue = DispatchQueue.main
 //
 //        let item = DispatchWorkItem {
@@ -358,9 +371,9 @@ class SegmentedBar: UIControl {
 //
 //        queue.async(execute: item)
     }
-    
+
     // MARK: Monitoring Method
-    
+
     @objc func listen() {
         if pursuing {
 //            print(Date())

@@ -7,15 +7,20 @@
 
 import Foundation
 
-public enum DisplayMode {
+public enum SegmentedViewDisplayMode {
     case top
     case bottom
 }
 
-public enum CountingMode {
+public enum SegmentedViewCountingMode {
     case barFirst
     case viewFirst
     case max
+}
+
+public enum SegmentedViewStyle {
+    case modern
+    case calm
 }
 
 enum MovingArea {
