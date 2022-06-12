@@ -14,11 +14,8 @@ public class SegmentedView: UIView {
     public var countingMode: SegmentedViewCountingMode = .barFirst
     
     public var currentIndex: Int = 0
-//    {
-//        didSet {
-//            print(currentIndex)
-//        }
-//    }
+    
+    public var backLayers: [UIView] = []
     
     private lazy var displayView = UIScrollView()
     private lazy var segmentedBar = SegmentedBar(barHeight: barHeight)
@@ -54,7 +51,8 @@ public class SegmentedView: UIView {
         didSet {
             displayView.contentSize = CGSize(width: bounds.width * CGFloat(count),
                                              height: bounds.height - barHeight - 10)
-            placeViews(with: bounds)
+//            placeViews(with: bounds)
+            placeBackLayer(with: bounds)
             displayView.contentOffset = CGPoint(x: bounds.width * CGFloat(currentIndex), y: 0)
 //            print(currentIndex)
 //            print(segmentedBar.selectedIndex)
@@ -74,6 +72,14 @@ public class SegmentedView: UIView {
         
         configureLayout()
         configureComponents()
+        
+        for _ in 0..<count {
+            let layer = UIView()
+            backLayers.append(layer)
+            displayView.addSubview(layer)
+        }
+        
+        placeViews()
     }
     
     convenience init() {
@@ -153,6 +159,44 @@ public class SegmentedView: UIView {
 //        displayView.addSubview(label3)
     }
     
+    private func placeBackLayer(with currentBounds: CGRect) {
+        guard count != 0 else { return }
+        
+//        let size = CGSize(width: currentBounds.width,
+//                          height: currentBounds.height - barHeight - 10)
+//
+//        let layer = UIView(frame: CGRect(x: 0, y: 0,
+//                                         width: size.width,
+//                                         height: size.height))
+//        displayView.addSubview(layer)
+//        backLayers.append(layer)
+//
+//        for index in 1..<count {
+//            let rect = CGRect(x: bounds.width * CGFloat(index),
+//                              y: 0,
+//                              width: size.width,
+//                              height: size.height)
+//            let layer = UIView(frame: rect)
+//            displayView.addSubview(layer)
+//            backLayers.append(layer)
+//        }
+        
+        let size = CGSize(width: currentBounds.width,
+                          height: currentBounds.height - barHeight - 10)
+        
+        backLayers[0].frame = CGRect(x: 0, y: 0,
+                                     width: size.width,
+                                     height: size.height)
+        
+        for index in 1..<count {
+            let rect = CGRect(x: bounds.width * CGFloat(index),
+                              y: 0,
+                              width: size.width,
+                              height: size.height)
+            backLayers[index].frame = rect
+        }
+    }
+    
     private func placeViews(with bounds: CGRect) {
         guard !views.isEmpty else { return }
         
@@ -169,6 +213,18 @@ public class SegmentedView: UIView {
                               height: size.height)
             view.frame = rect
             displayView.addSubview(view)
+        }
+    }
+    
+    private func placeViews() {
+        guard !views.isEmpty else { return }
+        
+        for (index, view) in views.enumerated().dropLast(views.count - count) {
+            backLayers[index].addSubview(view)
+            
+            view.snp.makeConstraints { make in
+                make.top.leading.trailing.bottom.equalToSuperview()
+            }
         }
     }
 }
