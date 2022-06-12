@@ -5,7 +5,7 @@
 //  Created by 张维熙 on 2022/6/9.
 //
 
-import Foundation
+import CoreGraphics
 
 public enum SegmentedViewDisplayMode {
     case top
@@ -27,4 +27,10 @@ enum MovingArea {
     case displayView
     case segmentedBar
     case undefined
+}
+
+public struct SegmentedViewConfiguration {
+    var barHeight: CGFloat = 35
+    var displayMode: SegmentedViewDisplayMode = .top
+    var countingMode: SegmentedViewCountingMode = .barFirst
 }

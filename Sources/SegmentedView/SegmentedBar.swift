@@ -33,8 +33,8 @@ class SegmentedBar: UIControl {
         configureLayout()
         configureView()
 
-        velocityLoop = CADisplayLink(target: self, selector: #selector(listen))
-        velocityLoop?.add(to: RunLoop.current, forMode: RunLoop.Mode(rawValue: RunLoop.Mode.common.rawValue))
+        trigger = CADisplayLink(target: self, selector: #selector(listen))
+        trigger?.add(to: RunLoop.current, forMode: RunLoop.Mode(rawValue: RunLoop.Mode.common.rawValue))
     }
 
     @available(*, unavailable)
@@ -118,7 +118,7 @@ class SegmentedBar: UIControl {
 
     weak var delegate: SegmentedBarDelegate?
 
-    var velocityLoop: CADisplayLink?
+    var trigger: CADisplayLink?
     var pursuing: Bool = false
 
     private func configureLayout() {
@@ -261,7 +261,7 @@ class SegmentedBar: UIControl {
 
     private func updateLabelsColor(with color: UIColor, selected: Bool) {
         let containerView = selected ? selectedView : backgroundView
-        containerView.subviews.forEach { ($0 as? UILabel)?.textColor = color }
+        containerView.subviews.forEach { ($0 as? UILabel)?.tintColor = color }
     }
 
     private func updateLabelsFont(with font: UIFont) {
@@ -321,24 +321,15 @@ class SegmentedBar: UIControl {
     open func move(to index: Int) {
         animate(to: index)
     }
-    
+
     private func index(at location: CGFloat) -> Int {
         guard sliderView.frame.width != 0 else { return 0 }
-        
+
         var index = Int(location / sliderView.frame.width)
         if index < 0 { index = 0 }
         else if index > countOfSegments - 1 { index = countOfSegments - 1 }
         return index
     }
-    
-//    private func index(at point: CGPoint) -> Int {
-//        guard sliderView.frame.width != 0 else { return 0 }
-//
-//        var index = Int(point.x / sliderView.frame.width)
-//        if index < 0 { index = 0 }
-//        else if index > countOfSegments - 1 { index = countOfSegments - 1 }
-//        return index
-//    }
 
     private func center(at index: Int) -> CGFloat {
         CGFloat(index) * sliderView.frame.width + sliderView.frame.width / 2
@@ -351,7 +342,6 @@ class SegmentedBar: UIControl {
     private func animate(to index: Int) {
         UIView.animate(withDuration: 0.2, animations: {
             self.sliderView.center.x = self.center(at: index)
-//            self.sliderView.frame.origin.x = self.leftBoundary(at: index)
         }, completion: { _ in
             self.delegate?.segmentedBarDidEndScroll(self)
             self.barState = .still

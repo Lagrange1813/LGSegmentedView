@@ -10,12 +10,16 @@ import UIKit
 
 public class SegmentedView: UIView {
     public var barHeight: CGFloat = 35
-    public var displayMode: SegmentedViewDisplayMode = .bottom
+    public var displayMode: SegmentedViewDisplayMode = .top
     public var countingMode: SegmentedViewCountingMode = .barFirst
     
-    public var currentIndex: Int = 0
+    public var currentIndex: Int {
+        _currentIndex
+    }
     
     public var backLayers: [UIView] = []
+    
+    private var _currentIndex: Int = 0
     
     private lazy var displayView = UIScrollView()
     private lazy var segmentedBar = SegmentedBar(barHeight: barHeight)
@@ -30,7 +34,7 @@ public class SegmentedView: UIView {
     
     private var views: [UIView] {
         didSet {
-            placeViews(with: bounds)
+            layoutViews()
         }
     }
     
@@ -51,11 +55,8 @@ public class SegmentedView: UIView {
         didSet {
             displayView.contentSize = CGSize(width: bounds.width * CGFloat(count),
                                              height: bounds.height - barHeight - 10)
-//            placeViews(with: bounds)
             placeBackLayer(with: bounds)
-            displayView.contentOffset = CGPoint(x: bounds.width * CGFloat(currentIndex), y: 0)
-//            print(currentIndex)
-//            print(segmentedBar.selectedIndex)
+            displayView.contentOffset = CGPoint(x: bounds.width * CGFloat(_currentIndex), y: 0)
         }
     }
     
@@ -79,7 +80,7 @@ public class SegmentedView: UIView {
             displayView.addSubview(layer)
         }
         
-        placeViews()
+        layoutViews()
     }
     
     convenience init() {
@@ -101,12 +102,12 @@ public class SegmentedView: UIView {
             segmentedBar.snp.makeConstraints { make in
                 make.leading.equalToSuperview().offset(20)
                 make.trailing.equalToSuperview().inset(20)
-                make.top.equalToSuperview().offset(10)
+                make.top.equalToSuperview().offset(5)
                 make.height.equalTo(barHeight)
             }
             
             displayView.snp.makeConstraints { make in
-                make.top.equalTo(segmentedBar.snp.bottom)
+                make.top.equalTo(segmentedBar.snp.bottom).offset(5)
                 make.leading.equalToSuperview()
                 make.trailing.equalToSuperview()
                 make.bottom.equalToSuperview()
@@ -135,51 +136,17 @@ public class SegmentedView: UIView {
         
         segmentedBar.delegate = self
         
-//        displayView.alwaysBounceHorizontal = false
         displayView.alwaysBounceHorizontal = true
         displayView.alwaysBounceVertical = false
         displayView.isPagingEnabled = true
         displayView.showsHorizontalScrollIndicator = false
         displayView.showsVerticalScrollIndicator = false
         
-        placeViews(with: bounds)
-        
         displayView.delegate = self
-        
-//        let label1 = UILabel(frame: CGRect(x: 0, y: 10, width: 80, height: 50))
-//        label1.text = "Label1"
-//        displayView.addSubview(label1)
-//
-//        let label2 = UILabel(frame: CGRect(x: 350, y: 10, width: 80, height: 50))
-//        label2.text = "Label2"
-//        displayView.addSubview(label2)
-//
-//        let label3 = UILabel(frame: CGRect(x: 700, y: 10, width: 80, height: 50))
-//        label3.text = "Label3"
-//        displayView.addSubview(label3)
     }
     
     private func placeBackLayer(with currentBounds: CGRect) {
         guard count != 0 else { return }
-        
-//        let size = CGSize(width: currentBounds.width,
-//                          height: currentBounds.height - barHeight - 10)
-//
-//        let layer = UIView(frame: CGRect(x: 0, y: 0,
-//                                         width: size.width,
-//                                         height: size.height))
-//        displayView.addSubview(layer)
-//        backLayers.append(layer)
-//
-//        for index in 1..<count {
-//            let rect = CGRect(x: bounds.width * CGFloat(index),
-//                              y: 0,
-//                              width: size.width,
-//                              height: size.height)
-//            let layer = UIView(frame: rect)
-//            displayView.addSubview(layer)
-//            backLayers.append(layer)
-//        }
         
         let size = CGSize(width: currentBounds.width,
                           height: currentBounds.height - barHeight - 10)
@@ -197,26 +164,7 @@ public class SegmentedView: UIView {
         }
     }
     
-    private func placeViews(with bounds: CGRect) {
-        guard !views.isEmpty else { return }
-        
-        let size = CGSize(width: bounds.width,
-                          height: bounds.height - barHeight - 10)
-        
-        views[0].frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-        displayView.addSubview(views[0])
-        
-        for (index, view) in views.enumerated().dropFirst().dropLast(views.count - count) {
-            let rect = CGRect(x: bounds.width * CGFloat(index),
-                              y: 0,
-                              width: size.width,
-                              height: size.height)
-            view.frame = rect
-            displayView.addSubview(view)
-        }
-    }
-    
-    private func placeViews() {
+    private func layoutViews() {
         guard !views.isEmpty else { return }
         
         for (index, view) in views.enumerated().dropLast(views.count - count) {
@@ -253,7 +201,7 @@ extension SegmentedView: SegmentedBarDelegate {
         displayView.isUserInteractionEnabled = true
         segmentedBar.isUserInteractionEnabled = true
         area = .undefined
-        currentIndex = segmentedBar.selectedIndex
+        _currentIndex = segmentedBar.selectedIndex
     }
     
     func sliderViewDidMove(_ segmentedBar: SegmentedBar) {
@@ -275,7 +223,7 @@ extension SegmentedView: UIScrollViewDelegate {
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         segmentedBar.isUserInteractionEnabled = true
         area = .undefined
-        currentIndex = segmentedBar.selectedIndex
+        _currentIndex = segmentedBar.selectedIndex
     }
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
