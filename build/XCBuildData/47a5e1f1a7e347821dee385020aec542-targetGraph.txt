@@ -1,0 +1,4 @@
+Target dependency graph (2 targets)
+SnapKit in LGSegmentedView, no dependencies
+LGSegmentedView in LGSegmentedView, depends on:
+SnapKit in LGSegmentedView (explicit)
