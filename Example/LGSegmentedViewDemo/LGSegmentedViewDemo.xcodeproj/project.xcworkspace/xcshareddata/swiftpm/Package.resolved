@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "LookinServer",
+        "repositoryURL": "https://github.com/QMUI/LookinServer/",
+        "state": {
+          "branch": null,
+          "revision": "d88a8deecae0949583b5d36fe4a96c6588c91bda",
+          "version": "1.0.6"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
