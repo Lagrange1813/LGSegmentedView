@@ -6,7 +6,6 @@
 //
 
 import UIKit
-//import SnapKit
 
 @objc protocol SegmentedBarDelegate {
     func sliderViewDidMove(_ segmentedBar: SegmentedBar)
@@ -99,11 +98,12 @@ class SegmentedBar: UIControl {
         return index
     }
 
-    private var segmentTitles: [String] = []
-    private var segmentIcons: [UIImage] = []
+    private var segmentTexts: [String] = []
+    private var segmentImages: [UIImage] = []
 
     private var countOfSegments: Int {
-        segmentTitles.isEmpty ? 1 : segmentTitles.count
+        segmentImages.isEmpty && segmentTexts.isEmpty ?
+            1 : max(segmentTexts.count, segmentImages.count)
     }
 
     private var segmentWidth: CGFloat {
@@ -132,28 +132,14 @@ class SegmentedBar: UIControl {
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         selectedView.translatesAutoresizingMaskIntoConstraints = false
         sliderView.translatesAutoresizingMaskIntoConstraints = false
-        
-//        containerView.snp.makeConstraints { make in
-//            make.top.equalToSuperview()
-//            make.leading.equalToSuperview()
-//            make.trailing.equalToSuperview()
-//            make.bottom.equalToSuperview()
-//        }
-        
+
         NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: self.topAnchor),
-            containerView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            containerView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            containerView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
+            containerView.topAnchor.constraint(equalTo: topAnchor),
+            containerView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            containerView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            containerView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
 
-//        backgroundView.snp.makeConstraints { make in
-//            make.top.equalToSuperview()
-//            make.leading.equalToSuperview()
-//            make.trailing.equalToSuperview()
-//            make.bottom.equalToSuperview()
-//        }
-        
         NSLayoutConstraint.activate([
             backgroundView.topAnchor.constraint(equalTo: containerView.topAnchor),
             backgroundView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
@@ -161,13 +147,6 @@ class SegmentedBar: UIControl {
             backgroundView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor)
         ])
 
-//        selectedView.snp.makeConstraints { make in
-//            make.top.equalToSuperview()
-//            make.leading.equalToSuperview()
-//            make.trailing.equalToSuperview()
-//            make.bottom.equalToSuperview()
-//        }
-        
         NSLayoutConstraint.activate([
             selectedView.topAnchor.constraint(equalTo: containerView.topAnchor),
             selectedView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
@@ -202,97 +181,102 @@ class SegmentedBar: UIControl {
         addDragGesture()
     }
 
-    func setSegmentItems(_ segmentTitles: [String]) {
-        guard !segmentTitles.isEmpty else { return }
+    enum ItemType {
+        case text
+        case image
+        case null
+    }
 
-        self.segmentTitles = segmentTitles
+    func setSegmentItems(withTexts segmentTexts: [String] = [],
+                         withImages segmentImages: [UIImage] = [])
+    {
+        var type: ItemType = .null
+        var count = 0
 
-        removeLabels()
+        if !segmentTexts.isEmpty {
+            type = .text
+            count = segmentTexts.count
+            self.segmentTexts = segmentTexts
+        } else if !segmentImages.isEmpty {
+            type = .image
+            count = segmentImages.count
+            self.segmentImages = segmentImages
+        } else { return }
 
-        var backgroundLabels: [UILabel] = []
-        var selectedLabels: [UILabel] = []
+        removeItems()
 
-        let firstBackgroundLabel = createLabel(with: segmentTitles[0], selected: false)
-        backgroundView.addSubview(firstBackgroundLabel)
-//        firstBackgroundLabel.snp.makeConstraints { make in
-//            make.top.equalToSuperview()
-//            make.bottom.equalToSuperview()
-//            make.leading.equalToSuperview()
-//            make.width.equalToSuperview().dividedBy(CGFloat(countOfSegments))
-//        }
-        
-        firstBackgroundLabel.translatesAutoresizingMaskIntoConstraints = false
+        var backgroundItems: [SegmentItem] = []
+        var selectedItems: [SegmentItem] = []
+
+        func getItem(at index: Int, selected: Bool) -> SegmentItem {
+            var item: SegmentItem
+            switch type {
+            case .text:
+                item = createItem(withText: segmentTexts[index], selected: selected)
+            case .image:
+                item = createItem(withImage: segmentImages[index], selected: selected)
+            default:
+                item = SegmentItem()
+            }
+            return item
+        }
+
+        let firstBackgroundItem = getItem(at: 0, selected: false)
+
+        backgroundView.addSubview(firstBackgroundItem)
+
+        firstBackgroundItem.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            firstBackgroundLabel.topAnchor.constraint(equalTo: backgroundView.topAnchor),
-            firstBackgroundLabel.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor),
-            firstBackgroundLabel.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor),
-            firstBackgroundLabel.widthAnchor.constraint(equalTo: backgroundView.widthAnchor,
-                                                        multiplier: CGFloat(1)/CGFloat(segmentTitles.count))
+            firstBackgroundItem.topAnchor.constraint(equalTo: backgroundView.topAnchor),
+            firstBackgroundItem.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor),
+            firstBackgroundItem.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor),
+            firstBackgroundItem.widthAnchor.constraint(equalTo: backgroundView.widthAnchor,
+                                                       multiplier: CGFloat(1) / CGFloat(count))
         ])
-        
-//        print(CGFloat(1)/CGFloat(segmentTitles.count))
 
-        let firstSelectedLabel = createLabel(with: segmentTitles[0], selected: true)
-        selectedView.addSubview(firstSelectedLabel)
-//        firstSelectedLabel.snp.makeConstraints { make in
-//            make.top.equalToSuperview()
-//            make.bottom.equalToSuperview()
-//            make.leading.equalToSuperview()
-//            make.width.equalToSuperview().dividedBy(CGFloat(countOfSegments))
-//        }
-        
-        firstSelectedLabel.translatesAutoresizingMaskIntoConstraints = false
+        let firstSelectedItem = getItem(at: 0, selected: true)
+        selectedView.addSubview(firstSelectedItem)
+
+        firstSelectedItem.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            firstSelectedLabel.topAnchor.constraint(equalTo: selectedView.topAnchor),
-            firstSelectedLabel.leadingAnchor.constraint(equalTo: selectedView.leadingAnchor),
-            firstSelectedLabel.bottomAnchor.constraint(equalTo: selectedView.bottomAnchor),
-            firstSelectedLabel.widthAnchor.constraint(equalTo: selectedView.widthAnchor,
-                                                      multiplier: CGFloat(1)/CGFloat(segmentTitles.count))
+            firstSelectedItem.topAnchor.constraint(equalTo: selectedView.topAnchor),
+            firstSelectedItem.leadingAnchor.constraint(equalTo: selectedView.leadingAnchor),
+            firstSelectedItem.bottomAnchor.constraint(equalTo: selectedView.bottomAnchor),
+            firstSelectedItem.widthAnchor.constraint(equalTo: selectedView.widthAnchor,
+                                                     multiplier: CGFloat(1) / CGFloat(count))
         ])
 
-        backgroundLabels.append(firstBackgroundLabel)
-        selectedLabels.append(firstSelectedLabel)
+        backgroundItems.append(firstBackgroundItem)
+        selectedItems.append(firstSelectedItem)
 
-        for (index, title) in segmentTitles.enumerated().dropFirst() {
-            let backgroundLabel = createLabel(with: title, selected: false)
-            backgroundView.addSubview(backgroundLabel)
-//            backgroundLabel.snp.makeConstraints { make in
-//                make.top.equalToSuperview()
-//                make.bottom.equalToSuperview()
-//                make.leading.equalTo(backgroundLabels[index - 1].snp.trailing)
-//                make.width.equalToSuperview().dividedBy(CGFloat(countOfSegments))
-//            }
-            
-            backgroundLabel.translatesAutoresizingMaskIntoConstraints = false
+        for index in 1 ..< count {
+            let backgroundItem = getItem(at: index, selected: false)
+            backgroundView.addSubview(backgroundItem)
+
+            backgroundItem.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
-                backgroundLabel.topAnchor.constraint(equalTo: backgroundView.topAnchor),
-                backgroundLabel.leadingAnchor.constraint(equalTo: backgroundLabels[index - 1].trailingAnchor),
-                backgroundLabel.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor),
-                backgroundLabel.widthAnchor.constraint(equalTo: backgroundView.widthAnchor,
-                                                       multiplier: CGFloat(1)/CGFloat(segmentTitles.count))
+                backgroundItem.topAnchor.constraint(equalTo: backgroundView.topAnchor),
+                backgroundItem.leadingAnchor.constraint(equalTo: backgroundItems[index - 1].trailingAnchor),
+                backgroundItem.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor),
+                backgroundItem.widthAnchor.constraint(equalTo: backgroundView.widthAnchor,
+                                                      multiplier: CGFloat(1) / CGFloat(count))
             ])
 
-            backgroundLabels.append(backgroundLabel)
+            backgroundItems.append(backgroundItem)
 
-            let selectedLabel = createLabel(with: title, selected: true)
-            selectedView.addSubview(selectedLabel)
-//            selectedLabel.snp.makeConstraints { make in
-//                make.top.equalToSuperview()
-//                make.bottom.equalToSuperview()
-//                make.leading.equalTo(backgroundLabels[index - 1].snp.trailing)
-//                make.width.equalToSuperview().dividedBy(CGFloat(countOfSegments))
-//            }
-            
-            selectedLabel.translatesAutoresizingMaskIntoConstraints = false
+            let selectedItem = getItem(at: index, selected: true)
+            selectedView.addSubview(selectedItem)
+
+            selectedItem.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
-                selectedLabel.topAnchor.constraint(equalTo: selectedView.topAnchor),
-                selectedLabel.leadingAnchor.constraint(equalTo: selectedLabels[index - 1].trailingAnchor),
-                selectedLabel.bottomAnchor.constraint(equalTo: selectedView.bottomAnchor),
-                selectedLabel.widthAnchor.constraint(equalTo: selectedView.widthAnchor,
-                                                     multiplier: CGFloat(1)/CGFloat(segmentTitles.count))
+                selectedItem.topAnchor.constraint(equalTo: selectedView.topAnchor),
+                selectedItem.leadingAnchor.constraint(equalTo: selectedItems[index - 1].trailingAnchor),
+                selectedItem.bottomAnchor.constraint(equalTo: selectedView.bottomAnchor),
+                selectedItem.widthAnchor.constraint(equalTo: selectedView.widthAnchor,
+                                                    multiplier: CGFloat(1) / CGFloat(count))
             ])
 
-            selectedLabels.append(selectedLabel)
+            selectedItems.append(selectedItem)
         }
     }
 
@@ -306,22 +290,30 @@ class SegmentedBar: UIControl {
         }
     }
 
-    // MARK: Configure Labels
+    // MARK: Configure Items
 
-    private func removeLabels() {
+    private func removeItems() {
         backgroundView.subviews.forEach { $0.removeFromSuperview() }
         selectedView.subviews.forEach { $0.removeFromSuperview() }
     }
 
-    private func createLabel(with text: String, selected: Bool) -> UILabel {
-        let label = UILabel()
+    private func createItem(withText text: String = "",
+                            withImage image: UIImage = UIImage(),
+                            selected: Bool) -> SegmentItem
+    {
+        let item = SegmentItem()
 
-        label.text = text
-        label.textAlignment = .center
-        label.textColor = selected ? highlightTextColor : defaultTextColor
-        label.font = font
+        if text != "" {
+            item.setText(text)
+        } else if image != UIImage() {
+            item.setImage(image, with: 22)
+        } else {
+            return .init()
+        }
 
-        return label
+        item.tintColor = selected ? highlightTextColor : defaultTextColor
+
+        return item
     }
 
     private func updateLabelsColor(with color: UIColor, selected: Bool) {
@@ -431,7 +423,6 @@ class SegmentedBar: UIControl {
 
     @objc func listen() {
         if pursuing {
-//            print(Date())
             delegate?.sliderViewDidMove(self)
         }
     }

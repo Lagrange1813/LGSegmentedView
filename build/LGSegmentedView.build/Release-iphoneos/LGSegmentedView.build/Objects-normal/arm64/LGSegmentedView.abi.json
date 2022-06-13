@@ -577,8 +577,8 @@
         },
         {
           "kind": "Var",
-          "name": "barItems",
-          "printedName": "barItems",
+          "name": "segmentTexts",
+          "printedName": "segmentTexts",
           "children": [
             {
               "kind": "TypeNominal",
@@ -596,8 +596,8 @@
             }
           ],
           "declKind": "Var",
-          "usr": "s:15LGSegmentedViewAAC8barItems33_65D676FAE80B2853B7C42F0AD0FA0785LLSaySSGvp",
-          "mangledName": "$s15LGSegmentedViewAAC8barItems33_65D676FAE80B2853B7C42F0AD0FA0785LLSaySSGvp",
+          "usr": "s:15LGSegmentedViewAAC12segmentTexts33_65D676FAE80B2853B7C42F0AD0FA0785LLSaySSGvp",
+          "mangledName": "$s15LGSegmentedViewAAC12segmentTexts33_65D676FAE80B2853B7C42F0AD0FA0785LLSaySSGvp",
           "moduleName": "LGSegmentedView",
           "isInternal": true,
           "declAttributes": [
@@ -606,6 +606,39 @@
             "AccessControl"
           ],
           "fixedbinaryorder": 8,
+          "hasStorage": true
+        },
+        {
+          "kind": "Var",
+          "name": "segmentImages",
+          "printedName": "segmentImages",
+          "children": [
+            {
+              "kind": "TypeNominal",
+              "name": "Array",
+              "printedName": "[UIKit.UIImage]",
+              "children": [
+                {
+                  "kind": "TypeNominal",
+                  "name": "UIImage",
+                  "printedName": "UIKit.UIImage",
+                  "usr": "c:objc(cs)UIImage"
+                }
+              ],
+              "usr": "s:Sa"
+            }
+          ],
+          "declKind": "Var",
+          "usr": "s:15LGSegmentedViewAAC13segmentImages33_65D676FAE80B2853B7C42F0AD0FA0785LLSaySo7UIImageCGvp",
+          "mangledName": "$s15LGSegmentedViewAAC13segmentImages33_65D676FAE80B2853B7C42F0AD0FA0785LLSaySo7UIImageCGvp",
+          "moduleName": "LGSegmentedView",
+          "isInternal": true,
+          "declAttributes": [
+            "Custom",
+            "HasStorage",
+            "AccessControl"
+          ],
+          "fixedbinaryorder": 9,
           "hasStorage": true
         },
         {
@@ -638,7 +671,7 @@
             "HasStorage",
             "AccessControl"
           ],
-          "fixedbinaryorder": 9,
+          "fixedbinaryorder": 10,
           "hasStorage": true
         },
         {
@@ -732,7 +765,7 @@
         {
           "kind": "Constructor",
           "name": "init",
-          "printedName": "init(frame:barItems:views:)",
+          "printedName": "init(frame:segmentTexts:segmentImages:views:)",
           "children": [
             {
               "kind": "TypeNominal",
@@ -765,6 +798,21 @@
             {
               "kind": "TypeNominal",
               "name": "Array",
+              "printedName": "[UIKit.UIImage]",
+              "children": [
+                {
+                  "kind": "TypeNominal",
+                  "name": "UIImage",
+                  "printedName": "UIKit.UIImage",
+                  "usr": "c:objc(cs)UIImage"
+                }
+              ],
+              "hasDefaultArg": true,
+              "usr": "s:Sa"
+            },
+            {
+              "kind": "TypeNominal",
+              "name": "Array",
               "printedName": "[UIKit.UIView]",
               "children": [
                 {
@@ -779,8 +827,8 @@
             }
           ],
           "declKind": "Constructor",
-          "usr": "s:15LGSegmentedViewAAC5frame8barItems5viewsABSo6CGRectV_SaySSGSaySo6UIViewCGtcfc",
-          "mangledName": "$s15LGSegmentedViewAAC5frame8barItems5viewsABSo6CGRectV_SaySSGSaySo6UIViewCGtcfc",
+          "usr": "s:15LGSegmentedViewAAC5frame12segmentTexts0D6Images5viewsABSo6CGRectV_SaySSGSaySo7UIImageCGSaySo6UIViewCGtcfc",
+          "mangledName": "$s15LGSegmentedViewAAC5frame12segmentTexts0D6Images5viewsABSo6CGRectV_SaySSGSaySo7UIImageCGSaySo6UIViewCGtcfc",
           "moduleName": "LGSegmentedView",
           "declAttributes": [
             "Custom",
@@ -1158,6 +1206,392 @@
     },
     {
       "kind": "TypeDecl",
+      "name": "SegmentItem",
+      "printedName": "SegmentItem",
+      "children": [
+        {
+          "kind": "Var",
+          "name": "label",
+          "printedName": "label",
+          "children": [
+            {
+              "kind": "TypeNominal",
+              "name": "Optional",
+              "printedName": "UIKit.UILabel?",
+              "children": [
+                {
+                  "kind": "TypeNominal",
+                  "name": "UILabel",
+                  "printedName": "UIKit.UILabel",
+                  "usr": "c:objc(cs)UILabel"
+                }
+              ],
+              "usr": "s:Sq"
+            }
+          ],
+          "declKind": "Var",
+          "usr": "s:15LGSegmentedView11SegmentItemC5label33_E9846507412243B6BC6E7568E8A6E05ELLSo7UILabelCSgvp",
+          "mangledName": "$s15LGSegmentedView11SegmentItemC5label33_E9846507412243B6BC6E7568E8A6E05ELLSo7UILabelCSgvp",
+          "moduleName": "LGSegmentedView",
+          "isInternal": true,
+          "declAttributes": [
+            "HasInitialValue",
+            "Custom",
+            "HasStorage",
+            "AccessControl"
+          ],
+          "fixedbinaryorder": 0,
+          "hasStorage": true
+        },
+        {
+          "kind": "Var",
+          "name": "icon",
+          "printedName": "icon",
+          "children": [
+            {
+              "kind": "TypeNominal",
+              "name": "Optional",
+              "printedName": "UIKit.UIImageView?",
+              "children": [
+                {
+                  "kind": "TypeNominal",
+                  "name": "UIImageView",
+                  "printedName": "UIKit.UIImageView",
+                  "usr": "c:objc(cs)UIImageView"
+                }
+              ],
+              "usr": "s:Sq"
+            }
+          ],
+          "declKind": "Var",
+          "usr": "s:15LGSegmentedView11SegmentItemC4icon33_E9846507412243B6BC6E7568E8A6E05ELLSo07UIImageB0CSgvp",
+          "mangledName": "$s15LGSegmentedView11SegmentItemC4icon33_E9846507412243B6BC6E7568E8A6E05ELLSo07UIImageB0CSgvp",
+          "moduleName": "LGSegmentedView",
+          "isInternal": true,
+          "declAttributes": [
+            "HasInitialValue",
+            "Custom",
+            "HasStorage",
+            "AccessControl"
+          ],
+          "fixedbinaryorder": 1,
+          "hasStorage": true
+        },
+        {
+          "kind": "Var",
+          "name": "tintColor",
+          "printedName": "tintColor",
+          "children": [
+            {
+              "kind": "TypeNominal",
+              "name": "Optional",
+              "printedName": "UIKit.UIColor?",
+              "children": [
+                {
+                  "kind": "TypeNominal",
+                  "name": "UIColor",
+                  "printedName": "UIKit.UIColor",
+                  "usr": "c:objc(cs)UIColor"
+                }
+              ],
+              "usr": "s:Sq"
+            }
+          ],
+          "declKind": "Var",
+          "usr": "c:@M@LGSegmentedView@objc(cs)SegmentItem(py)tintColor",
+          "mangledName": "$s15LGSegmentedView11SegmentItemC9tintColorSo7UIColorCSgvp",
+          "moduleName": "LGSegmentedView",
+          "overriding": true,
+          "isOpen": true,
+          "objc_name": "tintColor",
+          "declAttributes": [
+            "Dynamic",
+            "ObjC",
+            "Custom",
+            "Override"
+          ],
+          "accessors": [
+            {
+              "kind": "Accessor",
+              "name": "Get",
+              "printedName": "Get()",
+              "children": [
+                {
+                  "kind": "TypeNominal",
+                  "name": "Optional",
+                  "printedName": "UIKit.UIColor?",
+                  "children": [
+                    {
+                      "kind": "TypeNominal",
+                      "name": "UIColor",
+                      "printedName": "UIKit.UIColor",
+                      "usr": "c:objc(cs)UIColor"
+                    }
+                  ],
+                  "usr": "s:Sq"
+                }
+              ],
+              "declKind": "Accessor",
+              "usr": "c:@M@LGSegmentedView@objc(cs)SegmentItem(im)tintColor",
+              "mangledName": "$s15LGSegmentedView11SegmentItemC9tintColorSo7UIColorCSgvg",
+              "moduleName": "LGSegmentedView",
+              "overriding": true,
+              "implicit": true,
+              "isOpen": true,
+              "objc_name": "tintColor",
+              "declAttributes": [
+                "Dynamic",
+                "ObjC",
+                "Custom"
+              ],
+              "accessorKind": "get"
+            },
+            {
+              "kind": "Accessor",
+              "name": "Set",
+              "printedName": "Set()",
+              "children": [
+                {
+                  "kind": "TypeNominal",
+                  "name": "Void",
+                  "printedName": "()"
+                },
+                {
+                  "kind": "TypeNominal",
+                  "name": "Optional",
+                  "printedName": "UIKit.UIColor?",
+                  "children": [
+                    {
+                      "kind": "TypeNominal",
+                      "name": "UIColor",
+                      "printedName": "UIKit.UIColor",
+                      "usr": "c:objc(cs)UIColor"
+                    }
+                  ],
+                  "usr": "s:Sq"
+                }
+              ],
+              "declKind": "Accessor",
+              "usr": "c:@M@LGSegmentedView@objc(cs)SegmentItem(im)setTintColor:",
+              "mangledName": "$s15LGSegmentedView11SegmentItemC9tintColorSo7UIColorCSgvs",
+              "moduleName": "LGSegmentedView",
+              "overriding": true,
+              "implicit": true,
+              "isOpen": true,
+              "objc_name": "setTintColor:",
+              "declAttributes": [
+                "Dynamic",
+                "ObjC",
+                "Custom"
+              ],
+              "accessorKind": "set"
+            }
+          ]
+        },
+        {
+          "kind": "Constructor",
+          "name": "init",
+          "printedName": "init()",
+          "children": [
+            {
+              "kind": "TypeNominal",
+              "name": "SegmentItem",
+              "printedName": "LGSegmentedView.SegmentItem",
+              "usr": "c:@M@LGSegmentedView@objc(cs)SegmentItem"
+            }
+          ],
+          "declKind": "Constructor",
+          "usr": "c:@M@LGSegmentedView@objc(cs)SegmentItem(im)init",
+          "mangledName": "$s15LGSegmentedView11SegmentItemCACycfc",
+          "moduleName": "LGSegmentedView",
+          "overriding": true,
+          "objc_name": "init",
+          "declAttributes": [
+            "Dynamic",
+            "ObjC"
+          ],
+          "init_kind": "Designated"
+        },
+        {
+          "kind": "Function",
+          "name": "setText",
+          "printedName": "setText(_:)",
+          "children": [
+            {
+              "kind": "TypeNominal",
+              "name": "Void",
+              "printedName": "()"
+            },
+            {
+              "kind": "TypeNominal",
+              "name": "String",
+              "printedName": "Swift.String",
+              "usr": "s:SS"
+            }
+          ],
+          "declKind": "Func",
+          "usr": "s:15LGSegmentedView11SegmentItemC7setTextyySSF",
+          "mangledName": "$s15LGSegmentedView11SegmentItemC7setTextyySSF",
+          "moduleName": "LGSegmentedView",
+          "isOpen": true,
+          "declAttributes": [
+            "Custom"
+          ],
+          "funcSelfKind": "NonMutating"
+        },
+        {
+          "kind": "Function",
+          "name": "setImage",
+          "printedName": "setImage(_:with:)",
+          "children": [
+            {
+              "kind": "TypeNominal",
+              "name": "Void",
+              "printedName": "()"
+            },
+            {
+              "kind": "TypeNominal",
+              "name": "UIImage",
+              "printedName": "UIKit.UIImage",
+              "usr": "c:objc(cs)UIImage"
+            },
+            {
+              "kind": "TypeNominal",
+              "name": "CGFloat",
+              "printedName": "CoreGraphics.CGFloat",
+              "usr": "s:12CoreGraphics7CGFloatV"
+            }
+          ],
+          "declKind": "Func",
+          "usr": "s:15LGSegmentedView11SegmentItemC8setImage_4withySo7UIImageC_12CoreGraphics7CGFloatVtF",
+          "mangledName": "$s15LGSegmentedView11SegmentItemC8setImage_4withySo7UIImageC_12CoreGraphics7CGFloatVtF",
+          "moduleName": "LGSegmentedView",
+          "isOpen": true,
+          "declAttributes": [
+            "Custom"
+          ],
+          "funcSelfKind": "NonMutating"
+        },
+        {
+          "kind": "Constructor",
+          "name": "init",
+          "printedName": "init(frame:)",
+          "children": [
+            {
+              "kind": "TypeNominal",
+              "name": "SegmentItem",
+              "printedName": "LGSegmentedView.SegmentItem",
+              "usr": "c:@M@LGSegmentedView@objc(cs)SegmentItem"
+            },
+            {
+              "kind": "TypeNominal",
+              "name": "CGRect",
+              "printedName": "CoreGraphics.CGRect",
+              "usr": "c:@S@CGRect"
+            }
+          ],
+          "declKind": "Constructor",
+          "usr": "c:@M@LGSegmentedView@objc(cs)SegmentItem(im)initWithFrame:",
+          "mangledName": "$s15LGSegmentedView11SegmentItemC5frameACSo6CGRectV_tcfc",
+          "moduleName": "LGSegmentedView",
+          "overriding": true,
+          "implicit": true,
+          "objc_name": "initWithFrame:",
+          "declAttributes": [
+            "Dynamic",
+            "ObjC",
+            "Custom",
+            "Override"
+          ],
+          "init_kind": "Designated"
+        }
+      ],
+      "declKind": "Class",
+      "usr": "c:@M@LGSegmentedView@objc(cs)SegmentItem",
+      "mangledName": "$s15LGSegmentedView11SegmentItemC",
+      "moduleName": "LGSegmentedView",
+      "isOpen": true,
+      "declAttributes": [
+        "Custom",
+        "ObjC"
+      ],
+      "superclassUsr": "c:objc(cs)UIView",
+      "superclassNames": [
+        "UIKit.UIView",
+        "UIKit.UIResponder",
+        "ObjectiveC.NSObject"
+      ],
+      "conformances": [
+        {
+          "kind": "Conformance",
+          "name": "Equatable",
+          "printedName": "Equatable",
+          "usr": "s:SQ",
+          "mangledName": "$sSQ"
+        },
+        {
+          "kind": "Conformance",
+          "name": "Hashable",
+          "printedName": "Hashable",
+          "usr": "s:SH",
+          "mangledName": "$sSH"
+        },
+        {
+          "kind": "Conformance",
+          "name": "CVarArg",
+          "printedName": "CVarArg",
+          "usr": "s:s7CVarArgP",
+          "mangledName": "$ss7CVarArgP"
+        },
+        {
+          "kind": "Conformance",
+          "name": "_KeyValueCodingAndObservingPublishing",
+          "printedName": "_KeyValueCodingAndObservingPublishing",
+          "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
+          "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
+        },
+        {
+          "kind": "Conformance",
+          "name": "_KeyValueCodingAndObserving",
+          "printedName": "_KeyValueCodingAndObserving",
+          "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
+          "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
+        },
+        {
+          "kind": "Conformance",
+          "name": "CustomStringConvertible",
+          "printedName": "CustomStringConvertible",
+          "usr": "s:s23CustomStringConvertibleP",
+          "mangledName": "$ss23CustomStringConvertibleP"
+        },
+        {
+          "kind": "Conformance",
+          "name": "CustomDebugStringConvertible",
+          "printedName": "CustomDebugStringConvertible",
+          "usr": "s:s28CustomDebugStringConvertibleP",
+          "mangledName": "$ss28CustomDebugStringConvertibleP"
+        },
+        {
+          "kind": "Conformance",
+          "name": "__DefaultCustomPlaygroundQuickLookable",
+          "printedName": "__DefaultCustomPlaygroundQuickLookable",
+          "usr": "s:s38__DefaultCustomPlaygroundQuickLookableP",
+          "mangledName": "$ss38__DefaultCustomPlaygroundQuickLookableP"
+        }
+      ]
+    },
+    {
+      "kind": "Import",
+      "name": "UIKit",
+      "printedName": "UIKit",
+      "declKind": "Import",
+      "moduleName": "LGSegmentedView",
+      "declAttributes": [
+        "RawDocComment"
+      ]
+    },
+    {
+      "kind": "TypeDecl",
       "name": "DisplayView",
       "printedName": "DisplayView",
       "children": [
@@ -1425,8 +1859,7 @@
       "genericSig": "<τ_0_0 : AnyObject>",
       "sugared_genericSig": "<Self : AnyObject>",
       "declAttributes": [
-        "ObjC",
-        "RawDocComment"
+        "ObjC"
       ]
     },
     {
@@ -2196,8 +2629,8 @@
         },
         {
           "kind": "Var",
-          "name": "segmentTitles",
-          "printedName": "segmentTitles",
+          "name": "segmentTexts",
+          "printedName": "segmentTexts",
           "children": [
             {
               "kind": "TypeNominal",
@@ -2215,8 +2648,8 @@
             }
           ],
           "declKind": "Var",
-          "usr": "s:15LGSegmentedView12SegmentedBarC13segmentTitles33_6721750E7C22E2F2251ED8530F1207A6LLSaySSGvp",
-          "mangledName": "$s15LGSegmentedView12SegmentedBarC13segmentTitles33_6721750E7C22E2F2251ED8530F1207A6LLSaySSGvp",
+          "usr": "s:15LGSegmentedView12SegmentedBarC12segmentTexts33_6721750E7C22E2F2251ED8530F1207A6LLSaySSGvp",
+          "mangledName": "$s15LGSegmentedView12SegmentedBarC12segmentTexts33_6721750E7C22E2F2251ED8530F1207A6LLSaySSGvp",
           "moduleName": "LGSegmentedView",
           "isInternal": true,
           "declAttributes": [
@@ -2230,8 +2663,8 @@
         },
         {
           "kind": "Var",
-          "name": "segmentIcons",
-          "printedName": "segmentIcons",
+          "name": "segmentImages",
+          "printedName": "segmentImages",
           "children": [
             {
               "kind": "TypeNominal",
@@ -2249,8 +2682,8 @@
             }
           ],
           "declKind": "Var",
-          "usr": "s:15LGSegmentedView12SegmentedBarC12segmentIcons33_6721750E7C22E2F2251ED8530F1207A6LLSaySo7UIImageCGvp",
-          "mangledName": "$s15LGSegmentedView12SegmentedBarC12segmentIcons33_6721750E7C22E2F2251ED8530F1207A6LLSaySo7UIImageCGvp",
+          "usr": "s:15LGSegmentedView12SegmentedBarC13segmentImages33_6721750E7C22E2F2251ED8530F1207A6LLSaySo7UIImageCGvp",
+          "mangledName": "$s15LGSegmentedView12SegmentedBarC13segmentImages33_6721750E7C22E2F2251ED8530F1207A6LLSaySo7UIImageCGvp",
           "moduleName": "LGSegmentedView",
           "isInternal": true,
           "declAttributes": [
@@ -2858,9 +3291,257 @@
           "funcSelfKind": "NonMutating"
         },
         {
+          "kind": "TypeDecl",
+          "name": "ItemType",
+          "printedName": "ItemType",
+          "children": [
+            {
+              "kind": "Var",
+              "name": "text",
+              "printedName": "text",
+              "children": [
+                {
+                  "kind": "TypeFunc",
+                  "name": "Function",
+                  "printedName": "(LGSegmentedView.SegmentedBar.ItemType.Type) -> LGSegmentedView.SegmentedBar.ItemType",
+                  "children": [
+                    {
+                      "kind": "TypeNominal",
+                      "name": "ItemType",
+                      "printedName": "LGSegmentedView.SegmentedBar.ItemType",
+                      "usr": "s:15LGSegmentedView12SegmentedBarC8ItemTypeO"
+                    },
+                    {
+                      "kind": "TypeNominal",
+                      "name": "Metatype",
+                      "printedName": "LGSegmentedView.SegmentedBar.ItemType.Type",
+                      "children": [
+                        {
+                          "kind": "TypeNominal",
+                          "name": "ItemType",
+                          "printedName": "LGSegmentedView.SegmentedBar.ItemType",
+                          "usr": "s:15LGSegmentedView12SegmentedBarC8ItemTypeO"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "declKind": "EnumElement",
+              "usr": "s:15LGSegmentedView12SegmentedBarC8ItemTypeO4textyA2EmF",
+              "mangledName": "$s15LGSegmentedView12SegmentedBarC8ItemTypeO4textyA2EmF",
+              "moduleName": "LGSegmentedView",
+              "fixedbinaryorder": 0
+            },
+            {
+              "kind": "Var",
+              "name": "image",
+              "printedName": "image",
+              "children": [
+                {
+                  "kind": "TypeFunc",
+                  "name": "Function",
+                  "printedName": "(LGSegmentedView.SegmentedBar.ItemType.Type) -> LGSegmentedView.SegmentedBar.ItemType",
+                  "children": [
+                    {
+                      "kind": "TypeNominal",
+                      "name": "ItemType",
+                      "printedName": "LGSegmentedView.SegmentedBar.ItemType",
+                      "usr": "s:15LGSegmentedView12SegmentedBarC8ItemTypeO"
+                    },
+                    {
+                      "kind": "TypeNominal",
+                      "name": "Metatype",
+                      "printedName": "LGSegmentedView.SegmentedBar.ItemType.Type",
+                      "children": [
+                        {
+                          "kind": "TypeNominal",
+                          "name": "ItemType",
+                          "printedName": "LGSegmentedView.SegmentedBar.ItemType",
+                          "usr": "s:15LGSegmentedView12SegmentedBarC8ItemTypeO"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "declKind": "EnumElement",
+              "usr": "s:15LGSegmentedView12SegmentedBarC8ItemTypeO5imageyA2EmF",
+              "mangledName": "$s15LGSegmentedView12SegmentedBarC8ItemTypeO5imageyA2EmF",
+              "moduleName": "LGSegmentedView",
+              "fixedbinaryorder": 1
+            },
+            {
+              "kind": "Var",
+              "name": "null",
+              "printedName": "null",
+              "children": [
+                {
+                  "kind": "TypeFunc",
+                  "name": "Function",
+                  "printedName": "(LGSegmentedView.SegmentedBar.ItemType.Type) -> LGSegmentedView.SegmentedBar.ItemType",
+                  "children": [
+                    {
+                      "kind": "TypeNominal",
+                      "name": "ItemType",
+                      "printedName": "LGSegmentedView.SegmentedBar.ItemType",
+                      "usr": "s:15LGSegmentedView12SegmentedBarC8ItemTypeO"
+                    },
+                    {
+                      "kind": "TypeNominal",
+                      "name": "Metatype",
+                      "printedName": "LGSegmentedView.SegmentedBar.ItemType.Type",
+                      "children": [
+                        {
+                          "kind": "TypeNominal",
+                          "name": "ItemType",
+                          "printedName": "LGSegmentedView.SegmentedBar.ItemType",
+                          "usr": "s:15LGSegmentedView12SegmentedBarC8ItemTypeO"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "declKind": "EnumElement",
+              "usr": "s:15LGSegmentedView12SegmentedBarC8ItemTypeO4nullyA2EmF",
+              "mangledName": "$s15LGSegmentedView12SegmentedBarC8ItemTypeO4nullyA2EmF",
+              "moduleName": "LGSegmentedView",
+              "fixedbinaryorder": 2
+            },
+            {
+              "kind": "Function",
+              "name": "__derived_enum_equals",
+              "printedName": "__derived_enum_equals(_:_:)",
+              "children": [
+                {
+                  "kind": "TypeNominal",
+                  "name": "Bool",
+                  "printedName": "Swift.Bool",
+                  "usr": "s:Sb"
+                },
+                {
+                  "kind": "TypeNominal",
+                  "name": "ItemType",
+                  "printedName": "LGSegmentedView.SegmentedBar.ItemType",
+                  "usr": "s:15LGSegmentedView12SegmentedBarC8ItemTypeO"
+                },
+                {
+                  "kind": "TypeNominal",
+                  "name": "ItemType",
+                  "printedName": "LGSegmentedView.SegmentedBar.ItemType",
+                  "usr": "s:15LGSegmentedView12SegmentedBarC8ItemTypeO"
+                }
+              ],
+              "declKind": "Func",
+              "usr": "s:15LGSegmentedView12SegmentedBarC8ItemTypeO21__derived_enum_equalsySbAE_AEtFZ",
+              "mangledName": "$s15LGSegmentedView12SegmentedBarC8ItemTypeO21__derived_enum_equalsySbAE_AEtFZ",
+              "moduleName": "LGSegmentedView",
+              "static": true,
+              "implicit": true,
+              "declAttributes": [
+                "Implements"
+              ],
+              "funcSelfKind": "NonMutating"
+            },
+            {
+              "kind": "Var",
+              "name": "hashValue",
+              "printedName": "hashValue",
+              "children": [
+                {
+                  "kind": "TypeNominal",
+                  "name": "Int",
+                  "printedName": "Swift.Int",
+                  "usr": "s:Si"
+                }
+              ],
+              "declKind": "Var",
+              "usr": "s:15LGSegmentedView12SegmentedBarC8ItemTypeO9hashValueSivp",
+              "mangledName": "$s15LGSegmentedView12SegmentedBarC8ItemTypeO9hashValueSivp",
+              "moduleName": "LGSegmentedView",
+              "implicit": true,
+              "accessors": [
+                {
+                  "kind": "Accessor",
+                  "name": "Get",
+                  "printedName": "Get()",
+                  "children": [
+                    {
+                      "kind": "TypeNominal",
+                      "name": "Int",
+                      "printedName": "Swift.Int",
+                      "usr": "s:Si"
+                    }
+                  ],
+                  "declKind": "Accessor",
+                  "usr": "s:15LGSegmentedView12SegmentedBarC8ItemTypeO9hashValueSivg",
+                  "mangledName": "$s15LGSegmentedView12SegmentedBarC8ItemTypeO9hashValueSivg",
+                  "moduleName": "LGSegmentedView",
+                  "implicit": true,
+                  "accessorKind": "get"
+                }
+              ]
+            },
+            {
+              "kind": "Function",
+              "name": "hash",
+              "printedName": "hash(into:)",
+              "children": [
+                {
+                  "kind": "TypeNominal",
+                  "name": "Void",
+                  "printedName": "()"
+                },
+                {
+                  "kind": "TypeNominal",
+                  "name": "Hasher",
+                  "printedName": "Swift.Hasher",
+                  "paramValueOwnership": "InOut",
+                  "usr": "s:s6HasherV"
+                }
+              ],
+              "declKind": "Func",
+              "usr": "s:15LGSegmentedView12SegmentedBarC8ItemTypeO4hash4intoys6HasherVz_tF",
+              "mangledName": "$s15LGSegmentedView12SegmentedBarC8ItemTypeO4hash4intoys6HasherVz_tF",
+              "moduleName": "LGSegmentedView",
+              "implicit": true,
+              "funcSelfKind": "NonMutating"
+            }
+          ],
+          "declKind": "Enum",
+          "usr": "s:15LGSegmentedView12SegmentedBarC8ItemTypeO",
+          "mangledName": "$s15LGSegmentedView12SegmentedBarC8ItemTypeO",
+          "moduleName": "LGSegmentedView",
+          "isEnumExhaustive": true,
+          "conformances": [
+            {
+              "kind": "Conformance",
+              "name": "Equatable",
+              "printedName": "Equatable",
+              "usr": "s:SQ",
+              "mangledName": "$sSQ"
+            },
+            {
+              "kind": "Conformance",
+              "name": "Hashable",
+              "printedName": "Hashable",
+              "usr": "s:SH",
+              "mangledName": "$sSH"
+            },
+            {
+              "kind": "Conformance",
+              "name": "Sendable",
+              "printedName": "Sendable",
+              "usr": "s:s8SendableP",
+              "mangledName": "$ss8SendableP"
+            }
+          ]
+        },
+        {
           "kind": "Function",
           "name": "setSegmentItems",
-          "printedName": "setSegmentItems(_:)",
+          "printedName": "setSegmentItems(withTexts:withImages:)",
           "children": [
             {
               "kind": "TypeNominal",
@@ -2879,12 +3560,28 @@
                   "usr": "s:SS"
                 }
               ],
+              "hasDefaultArg": true,
+              "usr": "s:Sa"
+            },
+            {
+              "kind": "TypeNominal",
+              "name": "Array",
+              "printedName": "[UIKit.UIImage]",
+              "children": [
+                {
+                  "kind": "TypeNominal",
+                  "name": "UIImage",
+                  "printedName": "UIKit.UIImage",
+                  "usr": "c:objc(cs)UIImage"
+                }
+              ],
+              "hasDefaultArg": true,
               "usr": "s:Sa"
             }
           ],
           "declKind": "Func",
-          "usr": "s:15LGSegmentedView12SegmentedBarC15setSegmentItemsyySaySSGF",
-          "mangledName": "$s15LGSegmentedView12SegmentedBarC15setSegmentItemsyySaySSGF",
+          "usr": "s:15LGSegmentedView12SegmentedBarC15setSegmentItems9withTexts0H6ImagesySaySSG_SaySo7UIImageCGtF",
+          "mangledName": "$s15LGSegmentedView12SegmentedBarC15setSegmentItems9withTexts0H6ImagesySaySSG_SaySo7UIImageCGtF",
           "moduleName": "LGSegmentedView",
           "isOpen": true,
           "declAttributes": [

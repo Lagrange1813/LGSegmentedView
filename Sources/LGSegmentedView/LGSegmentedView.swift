@@ -25,9 +25,15 @@ public class LGSegmentedView: UIView {
     
     private var area: MovingArea = .undefined
     
-    private var barItems: [String] {
+    private var segmentTexts: [String] {
         didSet {
-            segmentedBar.setSegmentItems(barItems)
+            segmentedBar.setSegmentItems(withTexts: segmentTexts)
+        }
+    }
+    
+    private var segmentImages: [UIImage] {
+        didSet {
+            segmentedBar.setSegmentItems(withImages: segmentImages)
         }
     }
     
@@ -41,11 +47,11 @@ public class LGSegmentedView: UIView {
         var number = 0
         switch countingMode {
         case .barFirst:
-            number = barItems.count
+            number = max(segmentTexts.count, segmentImages.count)
         case .viewFirst:
             number = views.count
         case .max:
-            number = max(barItems.count, views.count)
+            number = max(segmentTexts.count, views.count)
         }
         return number
     }
@@ -60,10 +66,12 @@ public class LGSegmentedView: UIView {
     }
     
     public init(frame: CGRect = .zero,
-                barItems: [String] = [],
+                segmentTexts: [String] = [],
+                segmentImages: [UIImage] = [],
                 views: [UIView] = [])
     {
-        self.barItems = barItems
+        self.segmentTexts = segmentTexts
+        self.segmentImages = segmentImages
         self.views = views
         
         super.init(frame: frame)
@@ -108,26 +116,12 @@ public class LGSegmentedView: UIView {
                 segmentedBar.heightAnchor.constraint(equalToConstant: barHeight)
             ])
             
-//            segmentedBar.snp.makeConstraints { make in
-//                make.leading.equalToSuperview().offset(20)
-//                make.trailing.equalToSuperview().inset(20)
-//                make.top.equalToSuperview().offset(5)
-//                make.height.equalTo(barHeight)
-//            }
-            
             NSLayoutConstraint.activate([
                 displayView.topAnchor.constraint(equalTo: segmentedBar.bottomAnchor, constant: 5),
                 displayView.leadingAnchor.constraint(equalTo: leadingAnchor),
                 displayView.bottomAnchor.constraint(equalTo: bottomAnchor),
                 displayView.trailingAnchor.constraint(equalTo: trailingAnchor)
             ])
-            
-//            displayView.snp.makeConstraints { make in
-//                make.top.equalTo(segmentedBar.snp.bottom).offset(5)
-//                make.leading.equalToSuperview()
-//                make.trailing.equalToSuperview()
-//                make.bottom.equalToSuperview()
-//            }
             
         case .bottom:
             
@@ -147,25 +141,12 @@ public class LGSegmentedView: UIView {
                 displayView.bottomAnchor.constraint(equalTo: segmentedBar.topAnchor, constant: -5),
                 displayView.trailingAnchor.constraint(equalTo: trailingAnchor)
             ])
-            
-//            segmentedBar.snp.makeConstraints { make in
-//                make.leading.equalToSuperview().offset(20)
-//                make.trailing.equalToSuperview().inset(20)
-//                make.bottom.equalToSuperview().inset(5)
-//                make.height.equalTo(barHeight)
-//            }
-//
-//            displayView.snp.makeConstraints { make in
-//                make.top.equalToSuperview()
-//                make.leading.equalToSuperview()
-//                make.trailing.equalToSuperview()
-//                make.bottom.equalTo(segmentedBar.snp.top).offset(-5)
-//            }
         }
     }
     
     private func configureComponents() {
-        segmentedBar.setSegmentItems(barItems)
+        segmentedBar.setSegmentItems(withTexts: segmentTexts)
+        segmentedBar.setSegmentItems(withImages: segmentImages)
         
         segmentedBar.delegate = self
         
@@ -200,13 +181,8 @@ public class LGSegmentedView: UIView {
     private func layoutViews() {
         guard !views.isEmpty else { return }
         
-        for (index, view) in views.enumerated().dropLast(views.count - count) {
+        for (index, view) in views.enumerated().dropLast(max(views.count - count, 0)) {
             backLayers[index].addSubview(view)
-            
-//            view.snp.makeConstraints { make in
-//                make.top.leading.trailing.bottom.equalToSuperview()
-//            }
-            
             view.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
                 view.topAnchor.constraint(equalTo: backLayers[index].topAnchor),
