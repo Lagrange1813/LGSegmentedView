@@ -166,20 +166,6 @@
           "printedName": "__DefaultCustomPlaygroundQuickLookable",
           "usr": "s:s38__DefaultCustomPlaygroundQuickLookableP",
           "mangledName": "$ss38__DefaultCustomPlaygroundQuickLookableP"
-        },
-        {
-          "kind": "Conformance",
-          "name": "ConstraintRelatableTarget",
-          "printedName": "ConstraintRelatableTarget",
-          "usr": "s:7SnapKit25ConstraintRelatableTargetP",
-          "mangledName": "$s7SnapKit25ConstraintRelatableTargetP"
-        },
-        {
-          "kind": "Conformance",
-          "name": "LayoutConstraintItem",
-          "printedName": "LayoutConstraintItem",
-          "usr": "s:7SnapKit20LayoutConstraintItemP",
-          "mangledName": "$s7SnapKit20LayoutConstraintItemP"
         }
       ]
     },
@@ -192,13 +178,6 @@
       "declAttributes": [
         "RawDocComment"
       ]
-    },
-    {
-      "kind": "Import",
-      "name": "SnapKit",
-      "printedName": "SnapKit",
-      "declKind": "Import",
-      "moduleName": "LGSegmentedView"
     },
     {
       "kind": "TypeDecl",
@@ -303,7 +282,8 @@
       "genericSig": "<τ_0_0 : AnyObject>",
       "sugared_genericSig": "<Self : AnyObject>",
       "declAttributes": [
-        "ObjC"
+        "ObjC",
+        "RawDocComment"
       ]
     },
     {
@@ -1954,20 +1934,6 @@
           "printedName": "__DefaultCustomPlaygroundQuickLookable",
           "usr": "s:s38__DefaultCustomPlaygroundQuickLookableP",
           "mangledName": "$ss38__DefaultCustomPlaygroundQuickLookableP"
-        },
-        {
-          "kind": "Conformance",
-          "name": "ConstraintRelatableTarget",
-          "printedName": "ConstraintRelatableTarget",
-          "usr": "s:7SnapKit25ConstraintRelatableTargetP",
-          "mangledName": "$s7SnapKit25ConstraintRelatableTargetP"
-        },
-        {
-          "kind": "Conformance",
-          "name": "LayoutConstraintItem",
-          "printedName": "LayoutConstraintItem",
-          "usr": "s:7SnapKit20LayoutConstraintItemP",
-          "mangledName": "$s7SnapKit20LayoutConstraintItemP"
         }
       ]
     },
@@ -2241,13 +2207,6 @@
       "declAttributes": [
         "RawDocComment"
       ]
-    },
-    {
-      "kind": "Import",
-      "name": "SnapKit",
-      "printedName": "SnapKit",
-      "declKind": "Import",
-      "moduleName": "LGSegmentedView"
     },
     {
       "kind": "TypeDecl",
@@ -3379,20 +3338,6 @@
           "printedName": "__DefaultCustomPlaygroundQuickLookable",
           "usr": "s:s38__DefaultCustomPlaygroundQuickLookableP",
           "mangledName": "$ss38__DefaultCustomPlaygroundQuickLookableP"
-        },
-        {
-          "kind": "Conformance",
-          "name": "ConstraintRelatableTarget",
-          "printedName": "ConstraintRelatableTarget",
-          "usr": "s:7SnapKit25ConstraintRelatableTargetP",
-          "mangledName": "$s7SnapKit25ConstraintRelatableTargetP"
-        },
-        {
-          "kind": "Conformance",
-          "name": "LayoutConstraintItem",
-          "printedName": "LayoutConstraintItem",
-          "usr": "s:7SnapKit20LayoutConstraintItemP",
-          "mangledName": "$s7SnapKit20LayoutConstraintItemP"
         }
       ]
     },
@@ -5127,20 +5072,6 @@
           "printedName": "__DefaultCustomPlaygroundQuickLookable",
           "usr": "s:s38__DefaultCustomPlaygroundQuickLookableP",
           "mangledName": "$ss38__DefaultCustomPlaygroundQuickLookableP"
-        },
-        {
-          "kind": "Conformance",
-          "name": "ConstraintRelatableTarget",
-          "printedName": "ConstraintRelatableTarget",
-          "usr": "s:7SnapKit25ConstraintRelatableTargetP",
-          "mangledName": "$s7SnapKit25ConstraintRelatableTargetP"
-        },
-        {
-          "kind": "Conformance",
-          "name": "LayoutConstraintItem",
-          "printedName": "LayoutConstraintItem",
-          "usr": "s:7SnapKit20LayoutConstraintItemP",
-          "mangledName": "$s7SnapKit20LayoutConstraintItemP"
         }
       ]
     },
@@ -5283,20 +5214,6 @@
           "printedName": "__DefaultCustomPlaygroundQuickLookable",
           "usr": "s:s38__DefaultCustomPlaygroundQuickLookableP",
           "mangledName": "$ss38__DefaultCustomPlaygroundQuickLookableP"
-        },
-        {
-          "kind": "Conformance",
-          "name": "ConstraintRelatableTarget",
-          "printedName": "ConstraintRelatableTarget",
-          "usr": "s:7SnapKit25ConstraintRelatableTargetP",
-          "mangledName": "$s7SnapKit25ConstraintRelatableTargetP"
-        },
-        {
-          "kind": "Conformance",
-          "name": "LayoutConstraintItem",
-          "printedName": "LayoutConstraintItem",
-          "usr": "s:7SnapKit20LayoutConstraintItemP",
-          "mangledName": "$s7SnapKit20LayoutConstraintItemP"
         }
       ]
     }
