@@ -1,24 +1,24 @@
 //
 //  SegmentedViewExtension.swift
-//  SegmentedView
+//  LGSegmentedView
 //
 //  Created by 张维熙 on 2022/6/9.
 //
 
 import CoreGraphics
 
-public enum SegmentedViewDisplayMode {
+public enum LGSegmentedViewDisplayMode {
     case top
     case bottom
 }
 
-public enum SegmentedViewCountingMode {
+public enum LGSegmentedViewCountingMode {
     case barFirst
     case viewFirst
     case max
 }
 
-public enum SegmentedViewStyle {
+public enum LGSegmentedViewStyle {
     case modern
     case calm
 }
@@ -29,8 +29,8 @@ enum MovingArea {
     case undefined
 }
 
-public struct SegmentedViewConfiguration {
+public struct LGSegmentedViewConfiguration {
     var barHeight: CGFloat = 35
-    var displayMode: SegmentedViewDisplayMode = .top
-    var countingMode: SegmentedViewCountingMode = .barFirst
+    var displayMode: LGSegmentedViewDisplayMode = .top
+    var countingMode: LGSegmentedViewCountingMode = .barFirst
 }

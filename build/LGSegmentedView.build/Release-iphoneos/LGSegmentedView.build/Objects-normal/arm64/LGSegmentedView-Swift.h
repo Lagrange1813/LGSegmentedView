@@ -216,8 +216,8 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 @class NSCoder;
 
-SWIFT_CLASS("_TtC15LGSegmentedView13SegmentedView")
-@interface SegmentedView : UIView
+SWIFT_CLASS("_TtC15LGSegmentedView15LGSegmentedView")
+@interface LGSegmentedView : UIView
 @property (nonatomic) CGRect bounds;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
@@ -228,7 +228,7 @@ SWIFT_CLASS("_TtC15LGSegmentedView13SegmentedView")
 
 @class UIScrollView;
 
-@interface SegmentedView (SWIFT_EXTENSION(LGSegmentedView)) <UIScrollViewDelegate>
+@interface LGSegmentedView (SWIFT_EXTENSION(LGSegmentedView)) <UIScrollViewDelegate>
 - (void)scrollViewWillBeginDragging:(UIScrollView * _Nonnull)scrollView;
 - (void)scrollViewDidEndDecelerating:(UIScrollView * _Nonnull)scrollView;
 - (void)scrollViewDidScroll:(UIScrollView * _Nonnull)scrollView;

@@ -1,16 +1,16 @@
 //
-//  SegmentedView.swift
-//  SegmentedView
+//  LGSegmentedView.swift
+//  LGSegmentedView
 //
 //  Created by 张维熙 on 2022/6/6.
 //
 
 import UIKit
 
-public class SegmentedView: UIView {
+public class LGSegmentedView: UIView {
     public var barHeight: CGFloat = 35
-    public var displayMode: SegmentedViewDisplayMode = .bottom
-    public var countingMode: SegmentedViewCountingMode = .barFirst
+    public var displayMode: LGSegmentedViewDisplayMode = .bottom
+    public var countingMode: LGSegmentedViewCountingMode = .barFirst
     
     public var currentIndex: Int {
         _currentIndex
@@ -218,7 +218,7 @@ public class SegmentedView: UIView {
     }
 }
 
-public extension SegmentedView {
+public extension LGSegmentedView {
     func addSubView(_ subview: UIView, at index: Int) {
         guard index >= 0, index < count else { fatalError("Out of index") }
         
@@ -231,7 +231,7 @@ public extension SegmentedView {
     }
 }
 
-extension SegmentedView: SegmentedBarDelegate {
+extension LGSegmentedView: SegmentedBarDelegate {
     func segmentedBarWillStartScroll(_ segmentedBar: SegmentedBar) {
         displayView.isUserInteractionEnabled = false
         segmentedBar.isUserInteractionEnabled = false
@@ -255,7 +255,7 @@ extension SegmentedView: SegmentedBarDelegate {
     }
 }
 
-extension SegmentedView: UIScrollViewDelegate {
+extension LGSegmentedView: UIScrollViewDelegate {
     public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         segmentedBar.isUserInteractionEnabled = false
         area = .displayView
