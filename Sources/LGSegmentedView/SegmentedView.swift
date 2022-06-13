@@ -6,11 +6,10 @@
 //
 
 import UIKit
-import SnapKit
 
 public class SegmentedView: UIView {
     public var barHeight: CGFloat = 35
-    public var displayMode: SegmentedViewDisplayMode = .top
+    public var displayMode: SegmentedViewDisplayMode = .bottom
     public var countingMode: SegmentedViewCountingMode = .barFirst
     
     public var currentIndex: Int {
@@ -99,50 +98,69 @@ public class SegmentedView: UIView {
         switch displayMode {
         case .top:
             
-//            NSLayoutConstraint.activate([
-//                segmentedBar.topAnchor.constraint(equalTo: topAnchor, constant: 5),
-//                segmentedBar.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-//                segmentedBar.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-//                segmentedBar.heightAnchor.constraint(equalToConstant: barHeight)
-//            ])
+            segmentedBar.translatesAutoresizingMaskIntoConstraints = false
+            displayView.translatesAutoresizingMaskIntoConstraints = false
             
-            segmentedBar.snp.makeConstraints { make in
-                make.leading.equalToSuperview().offset(20)
-                make.trailing.equalToSuperview().inset(20)
-                make.top.equalToSuperview().offset(5)
-                make.height.equalTo(barHeight)
-            }
+            NSLayoutConstraint.activate([
+                segmentedBar.topAnchor.constraint(equalTo: topAnchor, constant: 5),
+                segmentedBar.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+                segmentedBar.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+                segmentedBar.heightAnchor.constraint(equalToConstant: barHeight)
+            ])
             
-//            NSLayoutConstraint.activate([
-//                displayView.topAnchor.constraint(equalTo: segmentedBar.bottomAnchor, constant: 5),
-//                displayView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-//                displayView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-//                displayView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
-//            ])
+//            segmentedBar.snp.makeConstraints { make in
+//                make.leading.equalToSuperview().offset(20)
+//                make.trailing.equalToSuperview().inset(20)
+//                make.top.equalToSuperview().offset(5)
+//                make.height.equalTo(barHeight)
+//            }
             
-            displayView.snp.makeConstraints { make in
-                make.top.equalTo(segmentedBar.snp.bottom).offset(5)
-                make.leading.equalToSuperview()
-                make.trailing.equalToSuperview()
-                make.bottom.equalToSuperview()
-            }
+            NSLayoutConstraint.activate([
+                displayView.topAnchor.constraint(equalTo: segmentedBar.bottomAnchor, constant: 5),
+                displayView.leadingAnchor.constraint(equalTo: leadingAnchor),
+                displayView.bottomAnchor.constraint(equalTo: bottomAnchor),
+                displayView.trailingAnchor.constraint(equalTo: trailingAnchor)
+            ])
+            
+//            displayView.snp.makeConstraints { make in
+//                make.top.equalTo(segmentedBar.snp.bottom).offset(5)
+//                make.leading.equalToSuperview()
+//                make.trailing.equalToSuperview()
+//                make.bottom.equalToSuperview()
+//            }
             
         case .bottom:
             
-            segmentedBar.snp.makeConstraints { make in
-                make.leading.equalToSuperview().offset(20)
-                make.trailing.equalToSuperview().inset(20)
-                make.bottom.equalToSuperview().inset(5)
-                make.height.equalTo(barHeight)
-            }
-
-            displayView.snp.makeConstraints { make in
-                make.top.equalToSuperview()
-                make.leading.equalToSuperview()
-                make.trailing.equalToSuperview()
-                make.bottom.equalTo(segmentedBar.snp.top).offset(-5)
-            }
+            segmentedBar.translatesAutoresizingMaskIntoConstraints = false
+            displayView.translatesAutoresizingMaskIntoConstraints = false
             
+            NSLayoutConstraint.activate([
+                segmentedBar.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
+                segmentedBar.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+                segmentedBar.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+                segmentedBar.heightAnchor.constraint(equalToConstant: barHeight)
+            ])
+            
+            NSLayoutConstraint.activate([
+                displayView.topAnchor.constraint(equalTo: topAnchor),
+                displayView.leadingAnchor.constraint(equalTo: leadingAnchor),
+                displayView.bottomAnchor.constraint(equalTo: segmentedBar.topAnchor, constant: -5),
+                displayView.trailingAnchor.constraint(equalTo: trailingAnchor)
+            ])
+            
+//            segmentedBar.snp.makeConstraints { make in
+//                make.leading.equalToSuperview().offset(20)
+//                make.trailing.equalToSuperview().inset(20)
+//                make.bottom.equalToSuperview().inset(5)
+//                make.height.equalTo(barHeight)
+//            }
+//
+//            displayView.snp.makeConstraints { make in
+//                make.top.equalToSuperview()
+//                make.leading.equalToSuperview()
+//                make.trailing.equalToSuperview()
+//                make.bottom.equalTo(segmentedBar.snp.top).offset(-5)
+//            }
         }
     }
     
@@ -185,16 +203,17 @@ public class SegmentedView: UIView {
         for (index, view) in views.enumerated().dropLast(views.count - count) {
             backLayers[index].addSubview(view)
             
-            view.snp.makeConstraints { make in
-                make.top.leading.trailing.bottom.equalToSuperview()
-            }
+//            view.snp.makeConstraints { make in
+//                make.top.leading.trailing.bottom.equalToSuperview()
+//            }
             
-//            NSLayoutConstraint.activate([
-//                view.topAnchor.constraint(equalTo: backLayers[index].topAnchor),
-//                view.leadingAnchor.constraint(equalTo: backLayers[index].leadingAnchor),
-//                view.bottomAnchor.constraint(equalTo: backLayers[index].bottomAnchor),
-//                view.trailingAnchor.constraint(equalTo: backLayers[index].trailingAnchor)
-//            ])
+            view.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                view.topAnchor.constraint(equalTo: backLayers[index].topAnchor),
+                view.leadingAnchor.constraint(equalTo: backLayers[index].leadingAnchor),
+                view.bottomAnchor.constraint(equalTo: backLayers[index].bottomAnchor),
+                view.trailingAnchor.constraint(equalTo: backLayers[index].trailingAnchor)
+            ])
         }
     }
 }

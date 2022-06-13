@@ -6,7 +6,6 @@ import PackageDescription
 let package = Package(
     name: "LGSegmentedView",
     platforms: [
-        .macOS(.v10_15), 
         .iOS(.v11)
     ],
     products: [
