@@ -16,7 +16,21 @@ class SliderView: UIView {
             sliderMaskView.layer.cornerRadius = cornerRadius
         }
     }
-
+    
+    var borderWidth: CGFloat = 0 {
+        didSet {
+            layer.borderWidth = borderWidth
+            sliderMaskView.layer.borderWidth = borderWidth
+        }
+    }
+    
+    var borderColor: UIColor = .clear {
+        didSet {
+            layer.borderColor = borderColor.cgColor
+            sliderMaskView.layer.borderColor = borderColor.cgColor
+        }
+    }
+    
     override var frame: CGRect {
         didSet {
             sliderMaskView.frame = frame

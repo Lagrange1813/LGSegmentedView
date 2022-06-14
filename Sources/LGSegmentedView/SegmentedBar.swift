@@ -20,62 +20,27 @@ private enum SegmentedBarState {
 
 class SegmentedBar: UIControl {
     private var height: CGFloat
+    var barStyle: LGSegmentedViewStyle
+
+    var defaultTextColor: UIColor {
+        SegmentedBarStyles[barStyle.rawValue]?.defaultTextColor ?? .clear
+    }
+
+    var highlightTextColor: UIColor {
+        SegmentedBarStyles[barStyle.rawValue]?.highlightTextColor ?? .clear
+    }
+
+    var barBackgroundColor: UIColor {
+        SegmentedBarStyles[barStyle.rawValue]?.barBackgroundColor ?? .clear
+    }
+
+    var sliderViewColor: UIColor {
+        SegmentedBarStyles[barStyle.rawValue]?.sliderViewColor ?? .clear
+    }
 
     override var bounds: CGRect {
         didSet {
             updateSliderView(with: bounds.width)
-        }
-    }
-
-    init(frame: CGRect = .zero, barHeight: CGFloat) {
-        height = barHeight
-        super.init(frame: frame)
-        configureLayout()
-        configureView()
-
-        trigger = CADisplayLink(target: self, selector: #selector(listen))
-        trigger?.add(to: RunLoop.current, forMode: RunLoop.Mode(rawValue: RunLoop.Mode.common.rawValue))
-    }
-
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    var defaultTextColor: UIColor = Palette.defaultTextColor {
-        didSet {
-            updateLabelsColor(with: defaultTextColor, selected: false)
-        }
-    }
-
-    var highlightTextColor: UIColor = Palette.highlightTextColor {
-        didSet {
-            updateLabelsColor(with: highlightTextColor, selected: true)
-        }
-    }
-
-    var segmentsBackgroundColor: UIColor = Palette.segmentedControlBackgroundColor {
-        didSet {
-            backgroundView.backgroundColor = segmentsBackgroundColor
-        }
-    }
-
-    var sliderBackgroundColor: UIColor = Palette.sliderColor {
-        didSet {
-            selectedView.backgroundColor = sliderBackgroundColor
-            if !isSliderShadowHidden { selectedView.addShadow(with: sliderBackgroundColor) }
-        }
-    }
-
-    var font: UIFont = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium) {
-        didSet {
-            updateLabelsFont(with: font)
-        }
-    }
-
-    var isSliderShadowHidden: Bool = false {
-        didSet {
-            updateShadow(with: sliderBackgroundColor, hidden: isSliderShadowHidden)
         }
     }
 
@@ -122,6 +87,37 @@ class SegmentedBar: UIControl {
     var trigger: CADisplayLink?
     var pursuing: Bool = false
 
+    init(frame: CGRect = .zero,
+         barHeight: CGFloat,
+         barStyle: LGSegmentedViewStyle = .modern)
+    {
+        height = barHeight
+        self.barStyle = barStyle
+        super.init(frame: frame)
+        configureLayout()
+        configureView()
+
+        trigger = CADisplayLink(target: self, selector: #selector(listen))
+        trigger?.add(to: RunLoop.current, forMode: RunLoop.Mode(rawValue: RunLoop.Mode.common.rawValue))
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+//    var font: UIFont = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium) {
+//        didSet {
+//            updateLabelsFont(with: font)
+//        }
+//    }
+
+//    var isSliderShadowHidden: Bool = false {
+//        didSet {
+//            updateShadow(with: sliderViewColor, hidden: isSliderShadowHidden)
+//        }
+//    }
+
     private func configureLayout() {
         addSubview(containerView)
         containerView.addSubview(backgroundView)
@@ -163,18 +159,37 @@ class SegmentedBar: UIControl {
 
     private func configureView() {
         backgroundColor = .clear
-        backgroundView.backgroundColor = segmentsBackgroundColor
-        selectedView.backgroundColor = sliderBackgroundColor
-
-        let cornerRadius = height / 2
-        backgroundView.layer.cornerRadius = cornerRadius
-        selectedView.layer.cornerRadius = cornerRadius
-        sliderView.cornerRadius = cornerRadius
-
+        backgroundView.backgroundColor = barBackgroundColor
+        selectedView.backgroundColor = sliderViewColor
+        
         selectedView.layer.mask = sliderView.sliderMaskView.layer
+        
+        switch barStyle {
+        case .modern:
 
-        if !isSliderShadowHidden {
-            selectedView.addShadow(with: sliderBackgroundColor)
+            let cornerRadius = height / 2
+            backgroundView.layer.cornerRadius = cornerRadius
+            selectedView.layer.cornerRadius = cornerRadius
+            sliderView.cornerRadius = cornerRadius
+
+//            if !isSliderShadowHidden {
+//                selectedView.addShadow(with: UIColor(hexString: "#4781F7"))
+//            }
+
+        case .classical:
+
+            let cornerRadius: CGFloat = 7
+            backgroundView.layer.cornerRadius = cornerRadius
+            selectedView.layer.cornerRadius = cornerRadius
+            sliderView.cornerRadius = cornerRadius
+            
+            sliderView.borderWidth = 5
+            sliderView.clipsToBounds = true
+            sliderView.borderColor = barBackgroundColor
+
+        case .imprint:
+
+            break
         }
 
         addTapGesture()
@@ -280,15 +295,15 @@ class SegmentedBar: UIControl {
         }
     }
 
-    private func updateShadow(with color: UIColor, hidden: Bool) {
-        if hidden {
-            selectedView.removeShadow()
-            sliderView.sliderMaskView.removeShadow()
-        } else {
-            selectedView.addShadow(with: sliderBackgroundColor)
-            sliderView.sliderMaskView.addShadow(with: .black)
-        }
-    }
+//    private func updateShadow(with color: UIColor, hidden: Bool) {
+//        if hidden {
+//            selectedView.removeShadow()
+//            sliderView.sliderMaskView.removeShadow()
+//        } else {
+//            selectedView.addShadow(with: sliderViewColor)
+//            sliderView.sliderMaskView.addShadow(with: .black)
+//        }
+//    }
 
     // MARK: Configure Items
 
@@ -314,16 +329,6 @@ class SegmentedBar: UIControl {
         item.tintColor = selected ? highlightTextColor : defaultTextColor
 
         return item
-    }
-
-    private func updateLabelsColor(with color: UIColor, selected: Bool) {
-        let containerView = selected ? selectedView : backgroundView
-        containerView.subviews.forEach { ($0 as? UILabel)?.tintColor = color }
-    }
-
-    private func updateLabelsFont(with font: UIFont) {
-        selectedView.subviews.forEach { ($0 as? UILabel)?.font = font }
-        backgroundView.subviews.forEach { ($0 as? UILabel)?.font = font }
     }
 
     // MARK: Tap gestures
@@ -425,6 +430,26 @@ class SegmentedBar: UIControl {
         if pursuing {
             delegate?.sliderViewDidMove(self)
         }
+    }
+}
+
+extension UIColor {
+    convenience init(hexString: String) {
+        let hex = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int = UInt64()
+        Scanner(string: hex).scanHexInt64(&int)
+        let a, r, g, b: UInt64
+        switch hex.count {
+        case 3: // RGB (12-bit)
+            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
+        case 6: // RGB (24-bit)
+            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
+        case 8: // ARGB (32-bit)
+            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
+        default:
+            (a, r, g, b) = (255, 0, 0, 0)
+        }
+        self.init(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
     }
 }
 

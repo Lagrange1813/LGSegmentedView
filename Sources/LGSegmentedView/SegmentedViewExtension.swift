@@ -18,9 +18,10 @@ public enum LGSegmentedViewCountingMode {
     case max
 }
 
-public enum LGSegmentedViewStyle {
-    case modern
-    case calm
+public enum LGSegmentedViewStyle: String {
+    case modern = "modern"
+    case classical = "classical"
+    case imprint = "imprint"
 }
 
 enum MovingArea {
