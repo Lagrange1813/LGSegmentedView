@@ -80,7 +80,16 @@ class SegmentedBar: UIControl {
     private lazy var containerView = UIView()
     private lazy var backgroundView = UIView()
     private lazy var selectedView = UIView()
-    lazy var sliderView = SliderView()
+    lazy var sliderView: SliderView = {
+        switch barStyle {
+        case .modern:
+            return SliderView()
+        case .classical:
+            return SliderView(.classical)
+        case .imprint:
+            return SliderView()
+        }
+    }()
 
     weak var delegate: SegmentedBarDelegate?
 
@@ -89,7 +98,7 @@ class SegmentedBar: UIControl {
 
     init(frame: CGRect = .zero,
          barHeight: CGFloat,
-         barStyle: LGSegmentedViewStyle = .modern)
+         barStyle: LGSegmentedViewStyle = .classical)
     {
         height = barHeight
         self.barStyle = barStyle
@@ -106,18 +115,6 @@ class SegmentedBar: UIControl {
         fatalError("init(coder:) has not been implemented")
     }
 
-//    var font: UIFont = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium) {
-//        didSet {
-//            updateLabelsFont(with: font)
-//        }
-//    }
-
-//    var isSliderShadowHidden: Bool = false {
-//        didSet {
-//            updateShadow(with: sliderViewColor, hidden: isSliderShadowHidden)
-//        }
-//    }
-
     private func configureLayout() {
         addSubview(containerView)
         containerView.addSubview(backgroundView)
@@ -127,7 +124,6 @@ class SegmentedBar: UIControl {
         containerView.translatesAutoresizingMaskIntoConstraints = false
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         selectedView.translatesAutoresizingMaskIntoConstraints = false
-        sliderView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: topAnchor),
@@ -161,31 +157,29 @@ class SegmentedBar: UIControl {
         backgroundColor = .clear
         backgroundView.backgroundColor = barBackgroundColor
         selectedView.backgroundColor = sliderViewColor
-        
-        selectedView.layer.mask = sliderView.sliderMaskView.layer
+        containerView.clipsToBounds = true
         
         switch barStyle {
         case .modern:
 
+            selectedView.layer.mask = sliderView.sliderMaskView.layer
+            
             let cornerRadius = height / 2
             backgroundView.layer.cornerRadius = cornerRadius
             selectedView.layer.cornerRadius = cornerRadius
             sliderView.cornerRadius = cornerRadius
 
-//            if !isSliderShadowHidden {
-//                selectedView.addShadow(with: UIColor(hexString: "#4781F7"))
-//            }
+            selectedView.addShadow(UIColor(hexString: "#4781F7"))
 
         case .classical:
 
+            containerView.insertSubview(sliderView.sliderMaskView, at: 1)
+            sliderView.addShadow(.black, style: .classical)
+            
             let cornerRadius: CGFloat = 7
             backgroundView.layer.cornerRadius = cornerRadius
             selectedView.layer.cornerRadius = cornerRadius
             sliderView.cornerRadius = cornerRadius
-            
-            sliderView.borderWidth = 5
-            sliderView.clipsToBounds = true
-            sliderView.borderColor = barBackgroundColor
 
         case .imprint:
 
@@ -294,16 +288,6 @@ class SegmentedBar: UIControl {
             selectedItems.append(selectedItem)
         }
     }
-
-//    private func updateShadow(with color: UIColor, hidden: Bool) {
-//        if hidden {
-//            selectedView.removeShadow()
-//            sliderView.sliderMaskView.removeShadow()
-//        } else {
-//            selectedView.addShadow(with: sliderViewColor)
-//            sliderView.sliderMaskView.addShadow(with: .black)
-//        }
-//    }
 
     // MARK: Configure Items
 
@@ -450,23 +434,5 @@ extension UIColor {
             (a, r, g, b) = (255, 0, 0, 0)
         }
         self.init(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
-    }
-}
-
-enum Palette {
-    static let defaultTextColor = Palette.colorFromRGB(9, green: 26, blue: 51, alpha: 0.4)
-    static let highlightTextColor = UIColor.white
-    static let segmentedControlBackgroundColor = Palette.colorFromRGB(237, green: 242, blue: 247, alpha: 0.7)
-    static let sliderColor = Palette.colorFromRGB(44, green: 131, blue: 255)
-
-    static func colorFromRGB(_ red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat = 1.0) -> UIColor {
-        func amount(_ amount: CGFloat, with alpha: CGFloat) -> CGFloat {
-            return (1 - alpha) * 255 + alpha * amount
-        }
-
-        let red = amount(red, with: alpha) / 255
-        let green = amount(green, with: alpha) / 255
-        let blue = amount(blue, with: alpha) / 255
-        return UIColor(red: red, green: green, blue: blue, alpha: 1)
     }
 }

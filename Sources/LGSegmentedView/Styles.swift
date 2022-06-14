@@ -20,10 +20,10 @@ let SegmentedBarStyles: [String: ColorStyle] = [
                          barBackgroundColor: UIColor(hexString: "#F4F6F9"),
                          sliderViewColor: UIColor(hexString: "#8F5558")),
     
-    "classical": ColorStyle(defaultTextColor: UIColor(hexString: "#9EA3AC"),
-                   highlightTextColor: .white,
-                   barBackgroundColor: UIColor(hexString: "#F4F6F9"),
-                   sliderViewColor: UIColor(hexString: "#4781F7")),
+    "classical": ColorStyle(defaultTextColor: .black,
+                            highlightTextColor: .black,
+                            barBackgroundColor: UIColor(hexString: "#EEEEEF"),
+                            sliderViewColor: .clear),
     
     "imprint": ColorStyle(defaultTextColor: UIColor(hexString: "#9EA3AC"),
                           highlightTextColor: .white,

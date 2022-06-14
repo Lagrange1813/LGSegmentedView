@@ -1,13 +1,13 @@
 version: "Apple Swift version 5.6.1 (swiftlang-5.6.0.323.66 clang-1316.0.20.12)"
 options: "5a1ea6b88143e18780ad1c621a159c69d8f526a6626e291fedbf3c20043bb573"
-build_start_time: [1655191098, 9623050]
-build_end_time: [1655191099, 953822135]
+build_start_time: [1655207947, 416592121]
+build_end_time: [1655207949, 132649898]
 inputs:
   "/Users/lagrange1813/Fundamental/LGSegmentedView/Sources/LGSegmentedView/DisplayView.swift": [1655106893, 638442993]
   "/Users/lagrange1813/Fundamental/LGSegmentedView/Sources/LGSegmentedView/LGSegmentedView.swift": [1655139312, 765718460]
   "/Users/lagrange1813/Fundamental/LGSegmentedView/Sources/LGSegmentedView/SegmentItem.swift": [1655124088, 949892997]
-  "/Users/lagrange1813/Fundamental/LGSegmentedView/Sources/LGSegmentedView/SegmentedBar.swift": [1655190379, 878441333]
+  "/Users/lagrange1813/Fundamental/LGSegmentedView/Sources/LGSegmentedView/SegmentedBar.swift": [1655207828, 981805086]
   "/Users/lagrange1813/Fundamental/LGSegmentedView/Sources/LGSegmentedView/SegmentedViewExtension.swift": [1655184443, 744568347]
-  "/Users/lagrange1813/Fundamental/LGSegmentedView/Sources/LGSegmentedView/SliderView.swift": [1655190394, 328649044]
-  "/Users/lagrange1813/Fundamental/LGSegmentedView/Sources/LGSegmentedView/Styles.swift": [1655190800, 915092945]
-  "/Users/lagrange1813/Fundamental/LGSegmentedView/Sources/LGSegmentedView/UIViewShadowExtension.swift": [1655106893, 607894420]
+  "/Users/lagrange1813/Fundamental/LGSegmentedView/Sources/LGSegmentedView/ShadowExtension.swift": [1655207457, 144690990]
+  "/Users/lagrange1813/Fundamental/LGSegmentedView/Sources/LGSegmentedView/SliderView.swift": [1655207417, 183571577]
+  "/Users/lagrange1813/Fundamental/LGSegmentedView/Sources/LGSegmentedView/Styles.swift": [1655207378, 71946144]
