@@ -1217,7 +1217,6 @@
         "ObjC"
       ],
       "superclassUsr": "c:objc(cs)UIView",
-      "hasMissingDesignatedInitializers": true,
       "superclassNames": [
         "UIKit.UIView",
         "UIKit.UIResponder",

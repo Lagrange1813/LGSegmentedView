@@ -7,7 +7,7 @@
 
 import UIKit
 
-public class LGSegmentedView: UIView {
+open class LGSegmentedView: UIView {
     public var barHeight: CGFloat
     public var displayMode: LGSegmentedViewDisplayMode
     public var countingMode: LGSegmentedViewCountingMode
@@ -102,7 +102,7 @@ public class LGSegmentedView: UIView {
     }
     
     @available(*, unavailable)
-    required init?(coder: NSCoder) {
+    public required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
