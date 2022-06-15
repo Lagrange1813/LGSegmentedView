@@ -10,7 +10,7 @@ import UIKit
 class SliderView: UIView {
     let sliderMaskView = UIView()
     
-    var style: LGSegmentedViewStyle
+    var style: LGSegmentedBarStyle
     var border: CGFloat = 2
 
     var cornerRadius: CGFloat = 0 {
@@ -27,20 +27,6 @@ class SliderView: UIView {
             }
         }
     }
-    
-//    var borderWidth: CGFloat = 0 {
-//        didSet {
-//            layer.borderWidth = borderWidth
-//            sliderMaskView.layer.borderWidth = borderWidth
-//        }
-//    }
-//
-//    var borderColor: UIColor = .clear {
-//        didSet {
-//            layer.borderColor = borderColor.cgColor
-//            sliderMaskView.layer.borderColor = borderColor.cgColor
-//        }
-//    }
     
     override var frame: CGRect {
         didSet {
@@ -64,11 +50,11 @@ class SliderView: UIView {
         }
     }
 
-    init(_ style: LGSegmentedViewStyle = .modern) {
+    init(_ style: LGSegmentedBarStyle = .modern) {
         self.style = style
         super.init(frame: .zero)
         
-        sliderMaskView.backgroundColor = .white
+        sliderMaskView.backgroundColor = .dynamicColor(.white, darkColor: UIColor(hexString: "#E2E2E6"))
         
         switch style {
         case .modern:

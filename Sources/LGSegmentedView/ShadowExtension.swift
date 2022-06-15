@@ -8,8 +8,7 @@
 import UIKit
 
 extension UIView {
-    func addShadow(_ color: UIColor, style: LGSegmentedViewStyle = .modern) {
-        
+    func addShadow(_ color: UIColor, style: LGSegmentedBarStyle = .modern) {
         switch style {
         case .modern:
             
@@ -29,7 +28,6 @@ extension UIView {
             
             break
         }
-        
     }
 
     func removeShadow() {

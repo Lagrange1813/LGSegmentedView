@@ -18,10 +18,10 @@ public enum LGSegmentedViewCountingMode {
     case max
 }
 
-public enum LGSegmentedViewStyle: String {
-    case modern = "modern"
-    case classical = "classical"
-    case imprint = "imprint"
+public enum LGSegmentedBarStyle: String {
+    case modern
+    case classical
+    case imprint
 }
 
 enum MovingArea {
@@ -31,7 +31,20 @@ enum MovingArea {
 }
 
 public struct LGSegmentedViewConfiguration {
-    var barHeight: CGFloat = 35
-    var displayMode: LGSegmentedViewDisplayMode = .top
-    var countingMode: LGSegmentedViewCountingMode = .barFirst
+    public var barHeight: CGFloat
+    public var displayMode: LGSegmentedViewDisplayMode = .top
+    public var countingMode: LGSegmentedViewCountingMode = .barFirst
+    public var barStyle: LGSegmentedBarStyle = .modern
+    
+    public init(
+        barHeight: CGFloat = 35,
+        displayMode: LGSegmentedViewDisplayMode = .bottom,
+        countingMode: LGSegmentedViewCountingMode = .barFirst,
+        barStyle: LGSegmentedBarStyle = .modern
+    ) {
+        self.barHeight = barHeight
+        self.displayMode = displayMode
+        self.countingMode = countingMode
+        self.barStyle = barStyle
+    }
 }

@@ -8,9 +8,10 @@
 import UIKit
 
 public class LGSegmentedView: UIView {
-    public var barHeight: CGFloat = 35
-    public var displayMode: LGSegmentedViewDisplayMode = .bottom
-    public var countingMode: LGSegmentedViewCountingMode = .barFirst
+    public var barHeight: CGFloat
+    public var displayMode: LGSegmentedViewDisplayMode
+    public var countingMode: LGSegmentedViewCountingMode
+    public var barStyle: LGSegmentedBarStyle
     
     public var currentIndex: Int {
         _currentIndex
@@ -21,19 +22,19 @@ public class LGSegmentedView: UIView {
     private var _currentIndex: Int = 0
     
     private lazy var displayView = UIScrollView()
-    private lazy var segmentedBar = SegmentedBar(barHeight: barHeight)
+    private lazy var segmentedBar = SegmentedBar(barHeight: barHeight, barStyle: barStyle)
     
     private var area: MovingArea = .undefined
     
     private var segmentTexts: [String] {
         didSet {
-            segmentedBar.setSegmentItems(withTexts: segmentTexts)
+            segmentedBar.setSegmentItems(segmentTexts)
         }
     }
     
     private var segmentImages: [UIImage] {
         didSet {
-            segmentedBar.setSegmentItems(withImages: segmentImages)
+            segmentedBar.setSegmentItems(segmentImages)
         }
     }
     
@@ -66,10 +67,16 @@ public class LGSegmentedView: UIView {
     }
     
     public init(frame: CGRect = .zero,
+                config: LGSegmentedViewConfiguration = .init(),
                 segmentTexts: [String] = [],
                 segmentImages: [UIImage] = [],
                 views: [UIView] = [])
     {
+        self.barHeight = config.barHeight
+        self.countingMode = config.countingMode
+        self.displayMode = config.displayMode
+        self.barStyle = config.barStyle
+        
         self.segmentTexts = segmentTexts
         self.segmentImages = segmentImages
         self.views = views
@@ -145,8 +152,8 @@ public class LGSegmentedView: UIView {
     }
     
     private func configureComponents() {
-        segmentedBar.setSegmentItems(withTexts: segmentTexts)
-        segmentedBar.setSegmentItems(withImages: segmentImages)
+        segmentedBar.setSegmentItems(segmentTexts)
+        segmentedBar.setSegmentItems(segmentImages)
         
         segmentedBar.delegate = self
         

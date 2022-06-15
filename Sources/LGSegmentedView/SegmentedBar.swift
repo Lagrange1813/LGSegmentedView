@@ -20,22 +20,22 @@ private enum SegmentedBarState {
 
 class SegmentedBar: UIControl {
     private var height: CGFloat
-    var barStyle: LGSegmentedViewStyle
+    var barStyle: LGSegmentedBarStyle
 
     var defaultTextColor: UIColor {
-        SegmentedBarStyles[barStyle.rawValue]?.defaultTextColor ?? .clear
+        SegmentedBarStyles[barStyle.rawValue]?.defaultItemColor ?? .clear
     }
 
     var highlightTextColor: UIColor {
-        SegmentedBarStyles[barStyle.rawValue]?.highlightTextColor ?? .clear
+        SegmentedBarStyles[barStyle.rawValue]?.highlightItemColor ?? .clear
     }
 
     var barBackgroundColor: UIColor {
-        SegmentedBarStyles[barStyle.rawValue]?.barBackgroundColor ?? .clear
+        SegmentedBarStyles[barStyle.rawValue]?.containerViewColor ?? .clear
     }
 
     var sliderViewColor: UIColor {
-        SegmentedBarStyles[barStyle.rawValue]?.sliderViewColor ?? .clear
+        SegmentedBarStyles[barStyle.rawValue]?.selectViewColor ?? .clear
     }
 
     override var bounds: CGRect {
@@ -98,7 +98,7 @@ class SegmentedBar: UIControl {
 
     init(frame: CGRect = .zero,
          barHeight: CGFloat,
-         barStyle: LGSegmentedViewStyle = .classical)
+         barStyle: LGSegmentedBarStyle = .classical)
     {
         height = barHeight
         self.barStyle = barStyle
@@ -158,12 +158,12 @@ class SegmentedBar: UIControl {
         backgroundView.backgroundColor = barBackgroundColor
         selectedView.backgroundColor = sliderViewColor
         containerView.clipsToBounds = true
-        
+
         switch barStyle {
         case .modern:
 
             selectedView.layer.mask = sliderView.sliderMaskView.layer
-            
+
             let cornerRadius = height / 2
             backgroundView.layer.cornerRadius = cornerRadius
             selectedView.layer.cornerRadius = cornerRadius
@@ -175,7 +175,7 @@ class SegmentedBar: UIControl {
 
             containerView.insertSubview(sliderView.sliderMaskView, at: 1)
             sliderView.addShadow(.black, style: .classical)
-            
+
             let cornerRadius: CGFloat = 7
             backgroundView.layer.cornerRadius = cornerRadius
             selectedView.layer.cornerRadius = cornerRadius
@@ -190,47 +190,23 @@ class SegmentedBar: UIControl {
         addDragGesture()
     }
 
-    enum ItemType {
-        case text
-        case image
-        case null
-    }
+    func setSegmentItems<T>(_ raws: [T]) {
+        guard !raws.isEmpty else { return }
 
-    func setSegmentItems(withTexts segmentTexts: [String] = [],
-                         withImages segmentImages: [UIImage] = [])
-    {
-        var type: ItemType = .null
-        var count = 0
+        if T.self == String.self {
+            segmentTexts = raws as? [String] ?? []
+        } else if T.self == UIImage.self {
+            segmentImages = raws as? [UIImage] ?? []
+        }
 
-        if !segmentTexts.isEmpty {
-            type = .text
-            count = segmentTexts.count
-            self.segmentTexts = segmentTexts
-        } else if !segmentImages.isEmpty {
-            type = .image
-            count = segmentImages.count
-            self.segmentImages = segmentImages
-        } else { return }
+        let count = raws.count
 
         removeItems()
 
         var backgroundItems: [SegmentItem] = []
         var selectedItems: [SegmentItem] = []
 
-        func getItem(at index: Int, selected: Bool) -> SegmentItem {
-            var item: SegmentItem
-            switch type {
-            case .text:
-                item = createItem(withText: segmentTexts[index], selected: selected)
-            case .image:
-                item = createItem(withImage: segmentImages[index], selected: selected)
-            default:
-                item = SegmentItem()
-            }
-            return item
-        }
-
-        let firstBackgroundItem = getItem(at: 0, selected: false)
+        let firstBackgroundItem = createItem(raws[0], selected: false)
 
         backgroundView.addSubview(firstBackgroundItem)
 
@@ -243,7 +219,8 @@ class SegmentedBar: UIControl {
                                                        multiplier: CGFloat(1) / CGFloat(count))
         ])
 
-        let firstSelectedItem = getItem(at: 0, selected: true)
+        let firstSelectedItem = createItem(raws[0], selected: true)
+
         selectedView.addSubview(firstSelectedItem)
 
         firstSelectedItem.translatesAutoresizingMaskIntoConstraints = false
@@ -259,7 +236,8 @@ class SegmentedBar: UIControl {
         selectedItems.append(firstSelectedItem)
 
         for index in 1 ..< count {
-            let backgroundItem = getItem(at: index, selected: false)
+            let backgroundItem = createItem(raws[index], selected: false)
+
             backgroundView.addSubview(backgroundItem)
 
             backgroundItem.translatesAutoresizingMaskIntoConstraints = false
@@ -273,7 +251,7 @@ class SegmentedBar: UIControl {
 
             backgroundItems.append(backgroundItem)
 
-            let selectedItem = getItem(at: index, selected: true)
+            let selectedItem = createItem(raws[index], selected: true)
             selectedView.addSubview(selectedItem)
 
             selectedItem.translatesAutoresizingMaskIntoConstraints = false
@@ -308,6 +286,20 @@ class SegmentedBar: UIControl {
             item.setImage(image, with: 22)
         } else {
             return .init()
+        }
+
+        item.tintColor = selected ? highlightTextColor : defaultTextColor
+
+        return item
+    }
+
+    private func createItem<T>(_ raw: T, selected: Bool) -> SegmentItem {
+        let item = SegmentItem()
+
+        if T.self == String.self {
+            item.setText(raw as? String ?? "")
+        } else if T.self == UIImage.self {
+            item.setImage(raw as? UIImage ?? UIImage(), with: 22)
         }
 
         item.tintColor = selected ? highlightTextColor : defaultTextColor

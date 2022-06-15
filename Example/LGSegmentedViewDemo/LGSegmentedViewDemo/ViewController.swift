@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
     override func viewDidLoad() {
-        view.backgroundColor = .systemGray6
+        view.backgroundColor = .systemGray5
     
         let testView1 = UIView()
         testView1.backgroundColor = UIColor(hexString: "#D4C9BB")
@@ -25,16 +25,19 @@ class ViewController: UIViewController {
         let image2 = UIImage(systemName: "suit.club.fill") ?? UIImage()
         let image3 = UIImage(systemName: "suit.diamond.fill") ?? UIImage()
         let image4 = UIImage(systemName: "suit.spade.fill") ?? UIImage()
-        let image5 = UIImage(systemName: "applelogo") ?? UIImage()
+        
+        let config = LGSegmentedViewConfiguration(barHeight: 35,
+                                                  displayMode: .bottom,
+                                                  countingMode: .barFirst,
+                                                  barStyle: .classical)
         
         let segmentedView = LGSegmentedView(
-//            segmentTexts: ["Test1", "Test2", "Test3"],
+            config: config,
 //            segmentTexts: ["Test1", "Test2", "Test3", "Test4"],
-//            segmentTexts: ["Test1", "Test2", "Test3", "Test4", "Test5"],
-//            segmentImages: [image1, image2, image3],
             segmentImages: [image1, image2, image3, image4],
-//            segmentImages: [image1, image2, image3, image4, image5],
             views: [testView1, testView2, testView3, testView4])
+        
+        segmentedView.backgroundColor = .systemBackground
         
         view.addSubview(segmentedView)
         

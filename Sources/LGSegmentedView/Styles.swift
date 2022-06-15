@@ -8,27 +8,32 @@
 import UIKit
 
 struct ColorStyle: Hashable {
-    var defaultTextColor: UIColor
-    var highlightTextColor: UIColor
-    var barBackgroundColor: UIColor
-    var sliderViewColor: UIColor
+    var defaultItemColor: UIColor
+    var highlightItemColor: UIColor
+    var containerViewColor: UIColor
+    var selectViewColor: UIColor
 }
 
 let SegmentedBarStyles: [String: ColorStyle] = [
-    "modern": ColorStyle(defaultTextColor: UIColor(hexString: "#9EA3AC"),
-                         highlightTextColor: .white,
-                         barBackgroundColor: UIColor(hexString: "#F4F6F9"),
-                         sliderViewColor: UIColor(hexString: "#8F5558")),
-    
-    "classical": ColorStyle(defaultTextColor: .black,
-                            highlightTextColor: .black,
-                            barBackgroundColor: UIColor(hexString: "#EEEEEF"),
-                            sliderViewColor: .clear),
-    
-    "imprint": ColorStyle(defaultTextColor: UIColor(hexString: "#9EA3AC"),
-                          highlightTextColor: .white,
-                          barBackgroundColor: UIColor(hexString: "#F4F6F9"),
-                          sliderViewColor: UIColor(hexString: "#4781F7"))
+    "modern": ColorStyle(
+        defaultItemColor: .dynamicColor(UIColor(hexString: "#9EA3AC"),
+                                        darkColor: UIColor(hexString: "#39393D")),
+        highlightItemColor: .white,
+        containerViewColor: .dynamicColor(UIColor(hexString: "#F4F6F9"),
+                                          darkColor: UIColor(hexString: "#1D1C1F")),
+        selectViewColor: .dynamicColor(UIColor(hexString: "#8F5558"),
+                                       darkColor: UIColor(hexString: "#C1A78F"))),
+
+    "classical": ColorStyle(
+        defaultItemColor: .black,
+        highlightItemColor: .black,
+        containerViewColor: .dynamicColor(UIColor(hexString: "#EEEEEF"),
+                                          darkColor: UIColor(hexString: "#1D1C1F")),
+        selectViewColor: .clear),
+
+    "imprint": ColorStyle(
+        defaultItemColor: UIColor(hexString: "#9EA3AC"),
+        highlightItemColor: .white,
+        containerViewColor: UIColor(hexString: "#F4F6F9"),
+        selectViewColor: UIColor(hexString: "#4781F7"))
 ]
-
-
