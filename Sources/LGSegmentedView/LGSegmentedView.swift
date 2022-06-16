@@ -199,6 +199,14 @@ open class LGSegmentedView: UIView {
             ])
         }
     }
+    
+    open func setSegmentItems<T> (_ raws: [T]) {
+        segmentedBar.setSegmentItems(raws)
+    }
+    
+    open func setSegmentViews (_ views: [UIView]) {
+        
+    }
 }
 
 public extension LGSegmentedView {

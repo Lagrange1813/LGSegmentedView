@@ -957,6 +957,79 @@
           "init_kind": "Convenience"
         },
         {
+          "kind": "Function",
+          "name": "setSegmentItems",
+          "printedName": "setSegmentItems(_:)",
+          "children": [
+            {
+              "kind": "TypeNominal",
+              "name": "Void",
+              "printedName": "()"
+            },
+            {
+              "kind": "TypeNominal",
+              "name": "Array",
+              "printedName": "[τ_0_0]",
+              "children": [
+                {
+                  "kind": "TypeNominal",
+                  "name": "GenericTypeParam",
+                  "printedName": "τ_0_0"
+                }
+              ],
+              "usr": "s:Sa"
+            }
+          ],
+          "declKind": "Func",
+          "usr": "s:15LGSegmentedViewAAC15setSegmentItemsyySayxGlF",
+          "mangledName": "$s15LGSegmentedViewAAC15setSegmentItemsyySayxGlF",
+          "moduleName": "LGSegmentedView",
+          "genericSig": "<τ_0_0>",
+          "sugared_genericSig": "<T>",
+          "isOpen": true,
+          "declAttributes": [
+            "Custom",
+            "AccessControl"
+          ],
+          "funcSelfKind": "NonMutating"
+        },
+        {
+          "kind": "Function",
+          "name": "setSegmentViews",
+          "printedName": "setSegmentViews(_:)",
+          "children": [
+            {
+              "kind": "TypeNominal",
+              "name": "Void",
+              "printedName": "()"
+            },
+            {
+              "kind": "TypeNominal",
+              "name": "Array",
+              "printedName": "[UIKit.UIView]",
+              "children": [
+                {
+                  "kind": "TypeNominal",
+                  "name": "UIView",
+                  "printedName": "UIKit.UIView",
+                  "usr": "c:objc(cs)UIView"
+                }
+              ],
+              "usr": "s:Sa"
+            }
+          ],
+          "declKind": "Func",
+          "usr": "s:15LGSegmentedViewAAC15setSegmentViewsyySaySo6UIViewCGF",
+          "mangledName": "$s15LGSegmentedViewAAC15setSegmentViewsyySaySo6UIViewCGF",
+          "moduleName": "LGSegmentedView",
+          "isOpen": true,
+          "declAttributes": [
+            "Custom",
+            "AccessControl"
+          ],
+          "funcSelfKind": "NonMutating"
+        },
+        {
           "kind": "Constructor",
           "name": "init",
           "printedName": "init(frame:)",
